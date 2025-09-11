@@ -16,7 +16,7 @@ export default function HomePage() {
           <Streak />
 
           {/* Flash Card */}
-          <FlashCards />
+          {/* <FlashCards /> */}
         </main>
       </div>
     </>
