@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    domains: ["placehold.co" , "opendoodles.com", "images.opendoodles.com"],
+  },
 };
 
 export default nextConfig;
