@@ -25,8 +25,8 @@ const courses: Course[] = [
     oldPrice: 250,
     sale: "50% OFF",
     cover: "https://images.opendoodles.com/z-U_V3hA-yI.png",
-    fallback: "https://placehold.co/300x200/C4B5FD/1e1e1e?text=Learn",
-    theme: "from-violet-500/70 via-fuchsia-500/60 to-indigo-500/50",
+    fallback: "https://placehold.co/300x200/3B82F6/FFFFFF?text=Learn",
+    theme: "from-blue-500/30 via-indigo-500/20 to-slate-500/10",
   },
   {
     id: "study-sprint",
@@ -37,8 +37,8 @@ const courses: Course[] = [
     oldPrice: 89,
     sale: "NEW",
     cover: "https://images.opendoodles.com/1yP2G-z8G.png",
-    fallback: "https://placehold.co/300x200/FECACA/1e1e1e?text=Focus",
-    theme: "from-rose-500/70 via-orange-500/60 to-amber-500/50",
+    fallback: "https://placehold.co/300x200/6366F1/FFFFFF?text=Focus",
+    theme: "from-indigo-500/30 via-purple-500/20 to-slate-500/10",
   },
 ];
 
@@ -63,14 +63,13 @@ export default function App() {
   }, []);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-[radial-gradient(circle_at_20%_20%,#1e1b4b,#0f0f17_60%)] text-white selection:bg-fuchsia-500/60 selection:text-white">
-      <div className="w-[390px] h-[844px] relative rounded-[40px] border border-white/15 shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_30px_60px_-10px_rgba(0,0,0,0.6),0_2px_4px_-1px_rgba(255,255,255,0.1)] overflow-hidden backdrop-blur-xl bg-white/[0.02]">
-        <GradientFX />
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 text-white selection:bg-blue-500/30 selection:text-white">
+      <div className="w-[390px] h-[844px] relative rounded-[40px] border border-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_20px_40px_-10px_rgba(0,0,0,0.4)] overflow-hidden backdrop-blur-xl bg-white/[0.03]">
         <div className="flex flex-col h-full">
           <Header />
-          <main className="flex-1 overflow-y-auto px-5 pb-6 space-y-8 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10">
+          <main className="flex-1 overflow-y-auto px-5 pb-6 space-y-6 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10">
             <CountdownCard time={time} />
-            <section className="space-y-6">
+            <section className="space-y-5">
               {courses.map((c) => (
                 <CourseCard key={c.id} c={c} />
               ))}
@@ -87,9 +86,9 @@ function Header() {
   return (
     <header className="pt-8 pb-5 px-5 flex items-center justify-between">
       <div>
-        <p className="text-xs uppercase tracking-widest text-white/50 font-medium">Welcome back</p>
-        <h1 className="mt-1 text-3xl font-extrabold leading-none">
-          <span className="bg-gradient-to-r from-fuchsia-400 via-violet-300 to-sky-300 bg-clip-text text-transparent drop-shadow-[0_1px_8px_rgba(168,85,247,0.35)]">
+        <p className="text-xs uppercase tracking-widest text-slate-400 font-medium">Welcome back</p>
+        <h1 className="mt-1 text-3xl font-bold leading-none">
+          <span className="bg-gradient-to-r from-white via-slate-200 to-slate-300 bg-clip-text text-transparent">
             Hello, Lay 👋
           </span>
         </h1>
@@ -98,7 +97,7 @@ function Header() {
         aria-label="Profile"
         className="relative group"
       >
-        <span className="absolute inset-0 rounded-full bg-gradient-to-tr from-fuchsia-500 via-violet-500 to-indigo-500 opacity-60 blur-sm group-hover:opacity-90 transition" />
+        <span className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 opacity-80 blur-sm group-hover:opacity-100 transition-opacity duration-200" />
         <Image
           src="https://placehold.co/80x80/6366F1/FFFFFF?text=L"
           alt="User avatar"
@@ -118,33 +117,33 @@ function CountdownCard({ time }: { time: { d: number; h: number; m: number; s: n
     { label: "Sec", value: time.s },
   ];
   return (
-    <div className="relative overflow-hidden rounded-3xl p-5 bg-gradient-to-br from-emerald-400/20 via-teal-400/10 to-cyan-400/10 border border-emerald-400/30 backdrop-blur-md shadow-[0_8px_30px_-10px_rgba(16,185,129,0.35)]">
-      <div className="absolute -top-24 -right-24 w-72 h-72 bg-emerald-400/20 rounded-full blur-3xl" />
+    <div className="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-blue-500/10 via-indigo-500/5 to-slate-500/5 border border-blue-500/20 backdrop-blur-md shadow-lg">
       <div className="flex items-center justify-between relative">
         <div>
-          <p className="text-sm font-medium tracking-wide text-emerald-200">Exam Countdown</p>
-          <h2 className="mt-1 text-xl font-bold text-emerald-50">Ready to crush it?</h2>
+          <p className="text-sm font-medium tracking-wide text-blue-200/80">Exam Countdown ⏰</p>
+          <h2 className="mt-1 text-xl font-semibold text-white">Ready to excel?</h2>
         </div>
-        <Sparkle />
+        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 flex items-center justify-center text-white font-bold text-xs shadow-lg">
+          🎯
+        </div>
       </div>
-      <div className="mt-4 grid grid-cols-4 gap-2">
+      <div className="mt-5 grid grid-cols-4 gap-3">
         {items.map((i) => (
           <div
             key={i.label}
-            className="group flex flex-col items-center rounded-xl bg-white/5 border border-white/10 py-2 backdrop-blur-sm hover:border-emerald-300/50 transition"
+            className="flex flex-col items-center rounded-xl bg-white/8 border border-white/10 py-3 backdrop-blur-sm hover:border-blue-400/30 transition-colors duration-200"
           >
-            <span className="font-bold text-lg tabular-nums tracking-tight">
+            <span className="font-bold text-lg tabular-nums tracking-tight text-white">
               {String(i.value).padStart(2, "0")}
             </span>
-            <span className="text-[10px] uppercase tracking-wider text-emerald-200/70">
+            <span className="text-[10px] uppercase tracking-wider text-slate-300">
               {i.label}
             </span>
           </div>
         ))}
       </div>
-      <button className="mt-5 w-full relative group rounded-2xl overflow-hidden bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 py-3 text-sm font-semibold tracking-wide">
-        <span className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.35),transparent)] animate-[shimmer_1.5s_linear_infinite]" />
-        Start Focus Session
+      <button className="mt-5 w-full relative group rounded-xl overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 py-3 text-sm font-semibold tracking-wide text-white hover:from-blue-500 hover:to-indigo-500 transition-all duration-200 shadow-lg hover:shadow-blue-500/25">
+        Start Focus Session 🚀
       </button>
     </div>
   );
@@ -153,10 +152,10 @@ function CountdownCard({ time }: { time: { d: number; h: number; m: number; s: n
 function CourseCard({ c }: { c: Course }) {
   return (
     <article
-      className="group relative rounded-3xl overflow-hidden border border-white/10 bg-white/[0.04] backdrop-blur-md hover:border-white/30 transition shadow-[0_4px_20px_-5px_rgba(0,0,0,0.5)]"
+      className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/[0.06] backdrop-blur-md hover:border-white/20 transition-all duration-200 shadow-lg hover:shadow-xl"
     >
-      <div className="relative h-40 overflow-hidden">
-        <div className={`absolute inset-0 bg-gradient-to-br ${c.theme} opacity-60`}></div>
+      <div className="relative h-36 overflow-hidden">
+        <div className={`absolute inset-0 bg-gradient-to-br ${c.theme} opacity-40`}></div>
         <Image
           src={c.cover}
           alt={c.title}
@@ -170,38 +169,36 @@ function CourseCard({ c }: { c: Course }) {
         />
         {c.sale && (
           <div className="absolute top-3 left-3">
-            <span className="px-3 py-1 rounded-full text-[10px] font-bold bg-black/70 backdrop-blur border border-white/20 tracking-wider">
+            <span className="px-3 py-1 rounded-full text-[10px] font-bold bg-black/80 backdrop-blur border border-white/20 tracking-wider text-white">
               {c.sale}
             </span>
           </div>
         )}
-        <div className="absolute bottom-2 right-2 flex gap-1">
-          <PulseDot color="bg-fuchsia-400" />
-          <PulseDot color="bg-indigo-400" />
-          <PulseDot color="bg-sky-400" />
+        <div className="absolute bottom-2 right-2">
+          <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse shadow-lg shadow-green-400/50" />
         </div>
       </div>
       <div className="p-4 space-y-3">
         <div className="flex justify-between items-start gap-3">
           <div className="min-w-0">
-            <h3 className="font-semibold text-[15px] leading-tight line-clamp-2">
+            <h3 className="font-semibold text-[15px] leading-tight line-clamp-2 text-white">
               {c.title}
             </h3>
-            <p className="mt-1 text-[11px] text-white/60 flex flex-wrap items-center gap-x-2 gap-y-0.5">
-              <span className="flex items-center gap-1 text-amber-300">
+            <p className="mt-1 text-[11px] text-slate-300 flex flex-wrap items-center gap-x-2 gap-y-0.5">
+              <span className="flex items-center gap-1 text-yellow-400">
                 ⭐ {c.rating}
               </span>
-              <span className="w-1 h-1 rounded-full bg-white/30" />
+              <span className="w-1 h-1 rounded-full bg-slate-400" />
               <span>{c.duration}</span>
             </p>
           </div>
           <button
             aria-label="Preview course"
-            className="relative w-11 h-11 flex items-center justify-center rounded-2xl bg-gradient-to-tr from-fuchsia-500 to-violet-500 text-white shadow-lg shadow-fuchsia-500/30 hover:scale-105 active:scale-95 transition"
+            className="relative w-10 h-10 flex items-center justify-center rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-500 text-white shadow-lg hover:scale-105 active:scale-95 transition-transform duration-200"
           >
             <svg
-              width="18"
-              height="18"
+              width="16"
+              height="16"
               viewBox="0 0 24 24"
               fill="currentColor"
               className="drop-shadow"
@@ -213,18 +210,14 @@ function CourseCard({ c }: { c: Course }) {
         <div className="flex items-end justify-between">
           <div className="flex items-baseline gap-2">
             {c.oldPrice && (
-              <span className="text-xs line-through text-white/40">${c.oldPrice}</span>
+              <span className="text-xs line-through text-slate-400">${c.oldPrice}</span>
             )}
-            <span className="text-lg font-bold">${c.price}</span>
+            <span className="text-lg font-bold text-white">${c.price}</span>
           </div>
-          <button className="group/cart relative overflow-hidden text-xs font-medium px-4 py-2 rounded-xl border border-white/15 bg-white/[0.06] hover:bg-white/15 transition">
-            <span className="absolute inset-0 bg-gradient-to-r from-fuchsia-500/0 via-fuchsia-500/20 to-fuchsia-500/0 opacity-0 group-hover/cart:opacity-100 transition" />
-            Add
+          <button className="group/cart relative overflow-hidden text-xs font-medium px-4 py-2 rounded-xl border border-white/15 bg-white/[0.08] hover:bg-white/15 transition-colors duration-200 text-white">
+            Add to Cart 🛒
           </button>
         </div>
-      </div>
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.15),transparent_60%)]" />
       </div>
     </article>
   );
@@ -232,31 +225,31 @@ function CourseCard({ c }: { c: Course }) {
 
 function NavBar() {
   const items = [
-    { id: "home", label: "Home", icon: HomeIcon, active: true },
-    { id: "focus", label: "Focus", icon: BoltIcon },
-    { id: "courses", label: "Courses", icon: BookIcon },
-    { id: "profile", label: "You", icon: UserIcon },
+    { id: "home", label: "Home", icon: HomeIcon, active: true, emoji: "🏠" },
+    { id: "focus", label: "Focus", icon: BoltIcon, emoji: "⚡" },
+    { id: "courses", label: "Courses", icon: BookIcon, emoji: "📚" },
+    { id: "profile", label: "You", icon: UserIcon, emoji: "👤" },
   ];
   return (
     <nav className="relative z-10 px-5 pb-5 pt-3">
-      <div className="flex justify-around bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/10 p-2">
+      <div className="flex justify-around bg-white/[0.06] backdrop-blur-xl rounded-2xl border border-white/10 p-2 shadow-lg">
         {items.map((i) => {
           const Icon = i.icon;
             return (
               <button
                 key={i.id}
-                className={`relative flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition ${
+                className={`relative flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all duration-200 ${
                   i.active
                     ? "text-white"
-                    : "text-white/50 hover:text-white"
+                    : "text-slate-400 hover:text-white"
                 }`}
               >
                 {i.active && (
-                  <span className="absolute inset-0 -z-10 bg-gradient-to-tr from-fuchsia-500/40 to-violet-500/30 rounded-xl blur-sm" />
+                  <span className="absolute inset-0 -z-10 bg-gradient-to-tr from-blue-500/30 to-indigo-500/20 rounded-xl" />
                 )}
                 <Icon
                   className={`w-5 h-5 ${
-                    i.active ? "drop-shadow-[0_0_6px_rgba(217,70,239,0.8)]" : ""
+                    i.active ? "drop-shadow-[0_0_6px_rgba(59,130,246,0.6)]" : ""
                   }`}
                 />
                 <span className="text-[10px] font-medium tracking-wide">{i.label}</span>
@@ -268,24 +261,7 @@ function NavBar() {
   );
 }
 
-/* Visual micro components */
-function Sparkle() {
-  return (
-    <div className="relative">
-      <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-400 to-cyan-400 flex items-center justify-center text-emerald-950 font-bold text-xs shadow-lg shadow-emerald-500/30 animate-pulse">
-        GO
-      </div>
-    </div>
-  );
-}
-
-function PulseDot({ color }: { color: string }) {
-  return (
-    <span
-      className={`relative w-2 h-2 rounded-full ${color} after:content-[''] after:absolute after:inset-0 after:rounded-full after:animate-ping after:${color}/40`}
-    />
-  );
-}
+/* Visual micro components - removed excessive animations for cleaner look */
 
 const baseIcon =
   "stroke-current stroke-[1.6] fill-none";
@@ -322,14 +298,7 @@ function UserIcon({ className = "" }: { className?: string }) {
   );
 }
 
-function GradientFX() {
-  return (
-    <>
-      <div className="pointer-events-none absolute -top-32 -left-24 w-96 h-96 bg-fuchsia-500/25 rounded-full mix-blend-screen blur-3xl animate-[pulse_6s_ease-in-out_infinite]" />
-      <div className="pointer-events-none absolute -bottom-24 -right-16 w-80 h-80 bg-indigo-500/30 rounded-full mix-blend-screen blur-3xl animate-[pulse_7s_ease-in-out_infinite]" />
-    </>
-  );
-}
+/* Clean icons with consistent styling */
 /* Tailwind extra (add to globals if not present):
 @keyframes shimmer { 0% {transform:translateX(-100%)} 100% {transform:translateX(100%)} }
 */
