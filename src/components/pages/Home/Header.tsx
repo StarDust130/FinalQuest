@@ -1,4 +1,3 @@
-import { ModeToggle } from "@/components/ModeToggle";
 import { AvatarFallback, AvatarImage , Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Flame } from "lucide-react";
@@ -21,7 +20,6 @@ const Header = () => {
       </div>
 
       <div className="flex items-center gap-4">
-        <ModeToggle />
         <div className="group relative flex items-center gap-1.5 rounded-full border border-neutral-800/70 bg-neutral-900/60 px-3 py-1.5 text-xs font-medium text-amber-400 shadow-inner shadow-black/40">
           <Flame className="h-4 w-4 drop-shadow" />
           <span className="font-semibold tabular-nums tracking-wide">3</span>
@@ -37,7 +35,7 @@ const Header = () => {
         </Button>
         <Avatar className="h-11 w-11 ring-1 ring-neutral-700/60 shadow-lg shadow-black/40">
           <AvatarImage
-            src="https://api.dicebear.com/7.x/thumbs/svg?seed=quest"
+            src="/av-2.jpg"
             alt="User avatar"
           />
           <AvatarFallback>U</AvatarFallback>
