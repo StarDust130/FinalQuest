@@ -168,15 +168,15 @@ const Footer = memo<FooterProps>(
               🚀
             </p>
             <p className="text-xs text-center mt-3">
-              <span className="text-neutral-500 dark:text-neutral-400 font-bold ">
-                Created by the one and only
+              <span className="text-neutral-500 dark:text-neutral-400 font-bold">
+                Created by the one and only ✨
               </span>{" "}
               <Link
                 href="https://chandrashekhar.life"
                 target="_blank"
-                className="font-semibold text-neutral-800 dark:text-neutral-100 hover:text-red-500 dark:hover:text-red-400 transition-colors underline underline-offset-4 decoration-wavy"
+                className="font-semibold text-neutral-800 dark:text-neutral-100 hover:text-red-500 dark:hover:text-red-400 transition-colors underline underline-offset-4 decoration-wavy decoration-blue-500 dark:decoration-blue-400 animate-pulse"
               >
-                ChandraShekhar 
+                ChandraShekhar
               </Link>
             </p>
           </div>
