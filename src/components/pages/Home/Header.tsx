@@ -35,6 +35,7 @@ import {
   Bug,
   Lightbulb,
 } from "lucide-react";
+import ModeToggle from "@/components/ModeToggle";
 
 const STREAK_COUNT = 4;
 
@@ -182,31 +183,38 @@ const Header = () => {
 
         {/* Right side */}
         <div className="flex items-center gap-3 sm:gap-4">
+          <span className="cursor-pointer hidden md:block">
+            <ModeToggle />
+          </span>
           {/* Streak */}
-                  <button
-                    type="button"
-                    onClick={() =>
-                      document.getElementById("streak")?.scrollIntoView({ behavior: "smooth", block: "start" })
-                    }
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        document.getElementById("streak")?.scrollIntoView({ behavior: "smooth", block: "start" });
-                      }
-                    }}
-                    aria-label={`${STREAK_COUNT} day streak – jump to streak section`}
-                    title={`${STREAK_COUNT} day streak`}
-                    className="group inline-flex items-center gap-1.5 rounded-md border-2 border-black dark:border-white bg-orange-100 dark:bg-orange-900/60 px-2 py-0.5 cursor-pointer select-none text-xs font-semibold text-orange-600 dark:text-orange-300 shadow-[3px_3px_0_0_#000] dark:shadow-[3px_3px_0_0_#fff] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_0_#000] dark:active:shadow-[1px_1px_0_0_#fff] transition-all"
-                  >
-                    <span
-                      role="img"
-                      aria-hidden="true"
-                      className="text-sm drop-shadow-[1px_1px_0_#fff]"
-                    >
-                      🔥
-                    </span>
-                    <span className="tabular-nums">{STREAK_COUNT}</span>
-                  </button>
+          <button
+            type="button"
+            onClick={() =>
+              document
+                .getElementById("streak")
+                ?.scrollIntoView({ behavior: "smooth", block: "start" })
+            }
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                document
+                  .getElementById("streak")
+                  ?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
+            }}
+            aria-label={`${STREAK_COUNT} day streak – jump to streak section`}
+            title={`${STREAK_COUNT} day streak`}
+            className="group inline-flex items-center gap-1.5 rounded-full border-2 border-black dark:border-none  bg-orange-100 dark:bg-orange-900/60 px-2 py-0.5 cursor-pointer select-none text-xs font-semibold text-orange-600 dark:text-orange-300 shadow-[3px_3px_0_0_#000]  active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_0_#000]  transition-all"
+          >
+            <span
+              role="img"
+              aria-hidden="true"
+              className="text-sm drop-shadow-[1px_1px_0_#fff]"
+            >
+              🔥
+            </span>
+            <span className="tabular-nums">{STREAK_COUNT}</span>
+          </button>
 
           {/* Profile */}
           <DropdownMenu>
@@ -240,10 +248,12 @@ const Header = () => {
                 <Settings className="h-4 w-4 mr-2" />
                 Profile & Settings
               </DropdownMenuItem>
-              <DropdownMenuItem onSelect={(e) => {
-                e.preventDefault();
-                avatarMenuInputRef.current?.click();
-              }}>
+              <DropdownMenuItem
+                onSelect={(e) => {
+                  e.preventDefault();
+                  avatarMenuInputRef.current?.click();
+                }}
+              >
                 <ImageIcon className="h-4 w-4 mr-2" />
                 Change Avatar
               </DropdownMenuItem>
