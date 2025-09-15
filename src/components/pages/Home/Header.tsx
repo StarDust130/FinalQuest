@@ -183,17 +183,30 @@ const Header = () => {
         {/* Right side */}
         <div className="flex items-center gap-3 sm:gap-4">
           {/* Streak */}
-                  <div
-                  className="flex items-center gap-1 rounded-full bg-orange-100 dark:bg-orange-900/50  px-2.5 py-1 cursor-default"
-                  title={`${STREAK_COUNT} day streak`}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      document.getElementById("streak")?.scrollIntoView({ behavior: "smooth", block: "start" })
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        document.getElementById("streak")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                      }
+                    }}
+                    aria-label={`${STREAK_COUNT} day streak – jump to streak section`}
+                    title={`${STREAK_COUNT} day streak`}
+                    className="group inline-flex items-center gap-1.5 rounded-md border-2 border-black dark:border-white bg-orange-100 dark:bg-orange-900/60 px-2 py-0.5 cursor-pointer select-none text-xs font-semibold text-orange-600 dark:text-orange-300 shadow-[3px_3px_0_0_#000] dark:shadow-[3px_3px_0_0_#fff] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_0_#000] dark:active:shadow-[1px_1px_0_0_#fff] transition-all"
                   >
-                  <span role="img" aria-label="fire emoji" className="text-sm animate-pulse">
-                    🔥
-                  </span>
-                  <span className="text-sm font-bold tabular-nums text-orange-500 dark:text-orange-400">
-                    {STREAK_COUNT}
-                  </span>
-                  </div>
+                    <span
+                      role="img"
+                      aria-hidden="true"
+                      className="text-sm animate-pulse drop-shadow-[1px_1px_0_#fff]"
+                    >
+                      🔥
+                    </span>
+                    <span className="tabular-nums">{STREAK_COUNT}</span>
+                  </button>
 
           {/* Profile */}
           <DropdownMenu>

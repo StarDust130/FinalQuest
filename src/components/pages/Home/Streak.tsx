@@ -29,14 +29,14 @@ const Streak: React.FC = () => {
   });
 
   return (
-    <div className="w-full max-w-full">
+    <section id="streak" className="w-full max-w-full ">
       {/* New top meta bar (outside card) */}
       <div
         className="
-          mb-3 sm:mb-4 flex flex-wrap items-center justify-between gap-2
+          mb-3 mt-5 sm:mb-4 flex flex-wrap items-center justify-between gap-2
         "
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 ">
           <h1
             className="
               text-sm sm:text-base font-black tracking-tight
@@ -72,7 +72,6 @@ const Streak: React.FC = () => {
               px-2 py-1 rounded-lg border-2 border-black dark:border-neutral-700
               bg-emerald-300 dark:bg-emerald-400 text-[10px] sm:text-xs font-black
               shadow-[2px_2px_0_0_#000] dark:shadow-[2px_2px_0_0_#222]
-              animate-[pulse_3s_ease-in-out_infinite]
             "
           >
             ⚡ {percent}%
@@ -292,7 +291,7 @@ const Streak: React.FC = () => {
           </span>
         </div>
       </section>
-    </div>
+    </section>
   );
 };
 
