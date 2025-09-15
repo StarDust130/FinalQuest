@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Footer from "@/components/elements/Footer";
 import Header from "@/components/pages/Home/Header";
+import NavBar from "@/components/elements/NavBar";
 
 const geistSans = Inter({
   variable: "--font-geist-sans",
@@ -38,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${geistSerif.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${geistSerif.variable} antialiased w-full max-w-6xl mx-auto`}
       >
         <ThemeProvider
           attribute="class"
@@ -48,6 +49,7 @@ export default function RootLayout({
         >
           <Header />
           {children}
+          <NavBar />
           <Footer />
         </ThemeProvider>
       </body>
