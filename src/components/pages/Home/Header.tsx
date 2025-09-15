@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   Avatar,
@@ -34,6 +34,7 @@ import {
   HelpCircle,
   Bug,
   Lightbulb,
+  Sparkles,
 } from "lucide-react";
 
 const STREAK_COUNT = 4;
@@ -42,35 +43,47 @@ const Header = () => {
   const [userName, setUserName] = useState("Learner");
   const [avatarSrc, setAvatarSrc] = useState<string | undefined>("/av-2.jpg");
   const [profileOpen, setProfileOpen] = useState(false);
-  const [nameInput, setNameInput] = useState(userName);
+  const [nameInput, setNameInput] = useState("Learner");
+  const [tempAvatarSrc, setTempAvatarSrc] = useState<string | undefined>("/av-2.jpg");
   const [waveCycle, setWaveCycle] = useState(true);
+  const [avatarChanged, setAvatarChanged] = useState(false);
   const prefersReducedMotion = useReducedMotion();
+  const avatarMenuInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    // Load from localStorage on mount
+    try {
+      const storedName = localStorage.getItem("userName");
+      if (storedName) setUserName(storedName);
+      const storedAvatar = localStorage.getItem("userAvatar");
+      if (storedAvatar) setAvatarSrc(storedAvatar);
+    } catch {}
+  }, []);
 
   const initials = useMemo(() => {
     const p = userName.trim().split(/\s+/).filter(Boolean);
     return p.slice(0, 2).map(x => x[0]?.toUpperCase() || "").join("") || "U";
   }, [userName]);
 
-  useEffect(() => {
-    try {
-      const n = localStorage.getItem("userName");
-      const a = localStorage.getItem("userAvatar");
-      if (n) {
-        setUserName(n);
-        setNameInput(n);
-      }
-      if (a) setAvatarSrc(a);
-    } catch {}
-  }, []);
-
   const handleNameSave = useCallback(() => {
     const next = nameInput.trim();
-    if (!next || next === userName) return;
-    setUserName(next);
-    try {
-      localStorage.setItem("userName", next);
-    } catch {}
-  }, [nameInput, userName]);
+    const nameChanged = next && next !== userName;
+    
+    if (nameChanged) {
+      setUserName(next);
+      try {
+        localStorage.setItem("userName", next);
+      } catch {}
+    }
+
+    if (avatarChanged && tempAvatarSrc) {
+      setAvatarSrc(tempAvatarSrc);
+      try {
+        localStorage.setItem("userAvatar", tempAvatarSrc);
+      } catch {}
+      setAvatarChanged(false);
+    }
+  }, [nameInput, userName, avatarChanged, tempAvatarSrc]);
 
   const downscaleImage = useCallback(
     async (file: File, max = 512, quality = 0.85): Promise<string> => {
@@ -112,32 +125,49 @@ const Header = () => {
       }
       try {
         const dataUrl = await downscaleImage(file);
-        setAvatarSrc(dataUrl);
-        try {
-          localStorage.setItem("userAvatar", dataUrl);
-        } catch {}
+        if (profileOpen) {
+          setTempAvatarSrc(dataUrl);
+          setAvatarChanged(true);
+        } else {
+          setAvatarSrc(dataUrl);
+          try {
+            localStorage.setItem("userAvatar", dataUrl);
+          } catch {}
+        }
       } catch {
         alert("Avatar load failed.");
       } finally {
         e.currentTarget.value = "";
       }
     },
-    [downscaleImage]
+    [downscaleImage, profileOpen]
   );
 
+  useEffect(() => {
+    if (profileOpen) {
+      setTempAvatarSrc(avatarSrc);
+      setNameInput(userName);
+      setAvatarChanged(false);
+    }
+  }, [profileOpen, avatarSrc, userName]);
+
+  const nameIsChanged = nameInput.trim() && nameInput.trim() !== userName;
+
   return (
-    <header className="w-full px-3 sm:px-6 backdrop-blur  supports-[backdrop-filter]:bg-background/55">
+    <header className="w-full px-3 sm:px-6 backdrop-blur supports-[backdrop-filter]:bg-background/55">
       <div className="h-14 sm:h-16 flex items-center justify-between">
         {/* Left: Greeting */}
-        <div className="flex items-center gap-2 min-w-0">
-          <h1 className="text-[25px]  sm:text-2xl font-normal tracking-tight truncate leading-none">
-            Hey, {userName}
+        <div className="flex items-center gap-3 min-w-0">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight truncate">
+            <span className="bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+              Hey, {userName}
+            </span>
           </h1>
           {!prefersReducedMotion && (
             <motion.span
               role="img"
               aria-label="wave"
-              className="text-xl select-none origin-bottom-right"
+              className="text-2xl select-none origin-bottom-right"
               animate={
                 waveCycle
                   ? { rotate: [0, 14, -6, 14, -4, 10, 0] }
@@ -155,11 +185,12 @@ const Header = () => {
         <div className="flex items-center gap-3 sm:gap-4">
           {/* Streak */}
           <div
-            className="flex items-center gap-1 rounded-full bg-orange-500/15 text-orange-600 dark:text-orange-400 text-xs sm:text-sm font-medium px-2.5 py-1 sm:px-3 sm:py-1.5 shadow-inner"
+            className="flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-400/20 to-orange-500/20 text-amber-600 dark:text-amber-400 text-sm font-semibold px-3 py-1.5 shadow-inner shadow-amber-500/10 border border-amber-500/30 hover:shadow-md transition-shadow cursor-default"
             aria-label={`${STREAK_COUNT} day streak`}
           >
+            <Sparkles className="h-4 w-4 text-amber-500" />
             <span className="tabular-nums">{STREAK_COUNT}</span>
-            <span className="text-base leading-none">🔥</span>
+            <span className="text-base leading-none animate-pulse">🔥</span>
           </div>
 
           {/* Profile */}
@@ -167,9 +198,9 @@ const Header = () => {
             <DropdownMenuTrigger asChild>
               <button
                 aria-label="Open profile menu"
-                className="rounded-full focus-visible:outline-none focus-visible:ring ring-offset-2 transition hover:shadow ring-border/30"
+                className="rounded-full focus-visible:outline-none focus-visible:ring-2 ring-offset-2 ring-offset-background transition hover:shadow-lg ring-primary/50"
               >
-                <Avatar className="h-11 w-11 sm:h-12 sm:w-12 ring-1 ring-border">
+                <Avatar className="h-11 w-11 sm:h-12 sm:w-12 ring-2 ring-border">
                   <AvatarImage
                     src={avatarSrc}
                     alt="User avatar"
@@ -186,70 +217,75 @@ const Header = () => {
               className="w-56 rounded-xl shadow-lg border-border/50"
             >
               <DropdownMenuLabel className="flex items-center gap-2">
-              <User2 className="h-4 w-4" />
-              {userName}
+                <User2 className="h-4 w-4" />
+                {userName}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onSelect={() => setProfileOpen(true)}>
-              <Settings className="h-4 w-4 mr-2" />
-              Profile & Settings
+                <Settings className="h-4 w-4 mr-2" />
+                Profile & Settings
               </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-              <label
-                htmlFor="avatar-upload-menu"
-                className="w-full flex items-center cursor-pointer"
-              >
+              <DropdownMenuItem onSelect={(e) => {
+                e.preventDefault();
+                avatarMenuInputRef.current?.click();
+              }}>
                 <ImageIcon className="h-4 w-4 mr-2" />
                 Change Avatar
-                <input
+              </DropdownMenuItem>
+              <input
+                ref={avatarMenuInputRef}
                 id="avatar-upload-menu"
                 type="file"
                 accept="image/*"
                 className="sr-only"
                 onChange={handleAvatarChange}
-                />
-              </label>
-              </DropdownMenuItem>
+              />
               <DropdownMenuSeparator />
               <DropdownMenuItem
-              onSelect={() => {
-                const msg = "🙋‍♂️ Hey! I'm using your app and need some help with: ";
-                window.open(
-                `https://wa.me/919302903537?text=${encodeURIComponent(msg)}`,
-                "_blank"
-                );
-              }}
+                onSelect={() => {
+                  const msg =
+                    "🙋‍♂️ Hey! I'm using your app and need some help with: ";
+                  window.open(
+                    `https://wa.me/919302903537?text=${encodeURIComponent(
+                      msg
+                    )}`,
+                    "_blank"
+                  );
+                }}
               >
-              <HelpCircle className="h-4 w-4 mr-2" />
-              Help
+                <HelpCircle className="h-4 w-4 mr-2" />
+                Help
               </DropdownMenuItem>
               <DropdownMenuItem
-              onSelect={() => {
-                const msg = "💡 Feature request: ";
-                window.open(
-                `https://wa.me/919302903537?text=${encodeURIComponent(msg)}`,
-                "_blank"
-                );
-              }}
+                onSelect={() => {
+                  const msg = "💡 Feature request: ";
+                  window.open(
+                    `https://wa.me/919302903537?text=${encodeURIComponent(
+                      msg
+                    )}`,
+                    "_blank"
+                  );
+                }}
               >
-              <Lightbulb className="h-4 w-4 mr-2" />
-              Request a Feature
+                <Lightbulb className="h-4 w-4 mr-2" />
+                Request a Feature
               </DropdownMenuItem>
               <DropdownMenuItem
-              onSelect={() => {
-                const msg = "🐞 I found a bug: ";
-                window.open(
-                `https://wa.me/919302903537?text=${encodeURIComponent(msg)}`,
-                "_blank"
-                );
-              }}
+                onSelect={() => {
+                  const msg = "🐞 I found a bug: ";
+                  window.open(
+                    `https://wa.me/919302903537?text=${encodeURIComponent(
+                      msg
+                    )}`,
+                    "_blank"
+                  );
+                }}
               >
-              <Bug className="h-4 w-4 mr-2" />
-              Report a Bug
+                <Bug className="h-4 w-4 mr-2" />
+                Report a Bug
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-
         </div>
       </div>
 
@@ -259,59 +295,58 @@ const Header = () => {
             <DialogTitle>Profile</DialogTitle>
             <DialogDescription>Manage how you appear.</DialogDescription>
           </DialogHeader>
-            <div className="flex items-start gap-4">
-              <Avatar className="h-16 w-16 ring-1 ring-border">
-                <AvatarImage
-                  src={avatarSrc}
-                  alt="User avatar"
-                  onError={() => setAvatarSrc(undefined)}
+          <div className="flex items-start gap-4">
+            <Avatar className="h-16 w-16 ring-1 ring-border">
+              <AvatarImage
+                src={tempAvatarSrc}
+                alt="User avatar"
+                onError={() => setTempAvatarSrc(undefined)}
+              />
+              <AvatarFallback>{initials}</AvatarFallback>
+            </Avatar>
+            <div className="grid gap-4 w-full">
+              <div className="grid gap-1.5">
+                <Label htmlFor="display-name">Display name</Label>
+                <Input
+                  id="display-name"
+                  value={nameInput}
+                  onChange={(e) => setNameInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && (nameIsChanged || avatarChanged)) {
+                      handleNameSave();
+                      setProfileOpen(false);
+                    }
+                    if (e.key === "Escape") {
+                      setNameInput(userName);
+                    }
+                  }}
+                  placeholder="Your name"
                 />
-                <AvatarFallback>{initials}</AvatarFallback>
-              </Avatar>
-              <div className="grid gap-4 w-full">
-                <div className="grid gap-1.5">
-                  <Label htmlFor="display-name">Display name</Label>
-                  <Input
-                    id="display-name"
-                    value={nameInput}
-                    onChange={(e) => setNameInput(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        handleNameSave();
-                        setProfileOpen(false);
-                      }
-                      if (e.key === "Escape") {
-                        setNameInput(userName);
-                      }
-                    }}
-                    placeholder="Your name"
-                  />
-                </div>
-                <div className="grid gap-1.5">
-                  <Label htmlFor="avatar-upload">Avatar</Label>
-                  <Input
-                    id="avatar-upload"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleAvatarChange}
-                  />
-                </div>
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="avatar-upload">Avatar</Label>
+                <Input
+                  id="avatar-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarChange}
+                />
               </div>
             </div>
+          </div>
           <Separator />
           <DialogFooter className="gap-2 sm:justify-between">
             <div className="flex gap-2 w-full justify-end">
               <Button
                 variant="ghost"
                 onClick={() => {
-                  setNameInput(userName);
                   setProfileOpen(false);
                 }}
               >
                 Close
               </Button>
               <Button
-                disabled={!nameInput.trim() || nameInput.trim() === userName}
+                disabled={!nameIsChanged && !avatarChanged}
                 onClick={() => {
                   handleNameSave();
                   setProfileOpen(false);
