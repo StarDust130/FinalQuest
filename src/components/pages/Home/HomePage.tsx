@@ -1,5 +1,5 @@
 
-import FlashCards from "./FlashCards";
+
 import HeroCard from "./HeroCard";
 import Streak from "./Streak";
 
@@ -14,9 +14,6 @@ export default function HomePage() {
 
           {/* STREAK / WEEKLY */}
           <Streak />
-
-          {/* Flash Card */}
-          <FlashCards />
         </main>
       </div>
     </>
