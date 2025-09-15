@@ -201,7 +201,7 @@ const Header = () => {
                     <span
                       role="img"
                       aria-hidden="true"
-                      className="text-sm animate-pulse drop-shadow-[1px_1px_0_#fff]"
+                      className="text-sm drop-shadow-[1px_1px_0_#fff]"
                     >
                       🔥
                     </span>
