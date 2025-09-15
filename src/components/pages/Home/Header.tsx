@@ -34,7 +34,6 @@ import {
   HelpCircle,
   Bug,
   Lightbulb,
-  Sparkles,
 } from "lucide-react";
 
 const STREAK_COUNT = 4;
@@ -184,14 +183,17 @@ const Header = () => {
         {/* Right side */}
         <div className="flex items-center gap-3 sm:gap-4">
           {/* Streak */}
-          <div
-            className="flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-400/20 to-orange-500/20 text-amber-600 dark:text-amber-400 text-sm font-semibold px-3 py-1.5 shadow-inner shadow-amber-500/10 border border-amber-500/30 hover:shadow-md transition-shadow cursor-default"
-            aria-label={`${STREAK_COUNT} day streak`}
-          >
-            <Sparkles className="h-4 w-4 text-amber-500" />
-            <span className="tabular-nums">{STREAK_COUNT}</span>
-            <span className="text-base leading-none animate-pulse">🔥</span>
-          </div>
+                  <div
+                  className="flex items-center gap-1 rounded-full bg-orange-100 dark:bg-orange-900/50  px-2.5 py-1 cursor-default"
+                  title={`${STREAK_COUNT} day streak`}
+                  >
+                  <span role="img" aria-label="fire emoji" className="text-sm animate-pulse">
+                    🔥
+                  </span>
+                  <span className="text-sm font-bold tabular-nums text-orange-500 dark:text-orange-400">
+                    {STREAK_COUNT}
+                  </span>
+                  </div>
 
           {/* Profile */}
           <DropdownMenu>
