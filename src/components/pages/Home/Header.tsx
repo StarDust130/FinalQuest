@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -33,7 +34,6 @@ import { Separator } from "@/components/ui/separator";
 import {
   HelpCircle,
   Bug,
-  Edit3,
   Image as ImageIcon,
   Sparkles,
   Settings,
@@ -158,10 +158,6 @@ const Header = () => {
     [downscaleImage]
   );
 
-  const startEditingName = useCallback(() => {
-    setNameInput(userName);
-    setEditingName(true);
-  }, [userName]);
 
   const handleSurprise = useCallback(() => {
     const pick = SURPRISE_SUGGESTIONS[Math.floor(Math.random() * SURPRISE_SUGGESTIONS.length)];
@@ -174,12 +170,12 @@ const Header = () => {
         initial={prefersReducedMotion ? false : { y: -10, opacity: 0 }}
         animate={prefersReducedMotion ? { opacity: 1 } : { y: 0, opacity: 1 }}
         transition={{ duration: 0.2, ease: "easeOut" }}
-        className="sticky top-0 z-40 w-full px-4 md:px-8 py-3 flex items-center justify-between border-b bg-gradient-to-b from-background/70 to-background/40 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+        className="sticky top-0 z-40 w-full px-4 md:px-8 py-3 flex items-center justify-between  bg-gradient-to-b from-background/70 to-background/40 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       >
         {/* Left: Greeting + Streak */}
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <h1 className="text-base md:text-xl font-semibold truncate">
+            <h1 className="text-2xl md:text-2xl font-semibold truncate">
               Hey, {userName}
             </h1>
             {!prefersReducedMotion && (
@@ -209,9 +205,6 @@ const Header = () => {
               <TooltipContent>{STREAK_COUNT}-day streak</TooltipContent>
             </Tooltip>
           </div>
-          <p className="text-xs md:text-sm mt-0.5 opacity-80 line-clamp-1">
-            It’s a great day to learn something new ✨
-          </p>
         </div>
 
         {/* Right: Actions */}
