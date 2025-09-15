@@ -300,10 +300,7 @@ const Header = () => {
             </div>
           <Separator />
           <DialogFooter className="gap-2 sm:justify-between">
-            <div className="text-xs opacity-70">
-              Stored locally on this device.
-            </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 w-full justify-end">
               <Button
                 variant="ghost"
                 onClick={() => {
