@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useMemo, useState } from "react";
 import {
@@ -187,7 +188,7 @@ const FlashCards = () => {
   );
 
   return (
-    <section className="space-y-6">
+    <section className="space-y-6 mt-5">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h2 className="text-2xl font-black tracking-tight flex items-center gap-3">
