@@ -66,7 +66,7 @@ const HeroCard = ({ onStart, className }: HeroCardProps) => {
       </div>
 
       {/* header */}
-      <div className="relative z-20 flex items-center justify-between px-6 py-5 bg-gradient-to-r from-orange-500 via-orange-400 to-yellow-400 text-black font-extrabold text-[1.05rem] md:text-[1.15rem] tracking-wide uppercase border-b-[5px] border-neutral-900 dark:border-black">
+      <div className="relative z-20 flex items-center justify-between px-6 py-5 bg-gradient-to-r from-pink-500 via-brown-400 to-blue-400 text-black font-extrabold text-[1.05rem] md:text-[1.15rem] tracking-wide uppercase border-b-[5px] border-neutral-900 dark:border-black">
         <span className="relative pr-2">
           Sprint Recall
           <span className="absolute inset-0 opacity-25 bg-[repeating-linear-gradient(45deg,rgba(0,0,0,0.25)_0,rgba(0,0,0,0.25)_10px,transparent_10px,transparent_20px)] mix-blend-multiply" />
