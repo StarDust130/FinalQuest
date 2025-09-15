@@ -4,7 +4,7 @@ import { ArrowRight, Flame, Sparkles, Timer, Zap } from "lucide-react";
 
 const HeroCard = () => {
   return (
-    <Card className="relative overflow-hidden border border-neutral-800/70 bg-neutral-950/70 backdrop-blur-xl rounded-3xl group">
+    <Card className="relative overflow-hidden border border-neutral-800/70 bg-neutral-950/70 backdrop-blur-xl rounded-3xl group mt-5">
       {/* FX */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 opacity-70 bg-[radial-gradient(circle_at_25%_20%,rgba(99,102,241,0.25),transparent_65%)]" />
