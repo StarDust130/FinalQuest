@@ -1,16 +1,7 @@
-"use client";
-import { useEffect } from "react";
 import HeroCard from "./HeroCard";
 import Streak from "./Streak";
 
 export default function HomePage() {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      throw new Error("Simulated error after 5 seconds");
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <>
