@@ -62,8 +62,8 @@ const Footer = memo<FooterProps>(
               <Image
               src="/icon.png"
               alt="logo"
-              width={100}
-              height={100}
+              width={60}
+              height={60}
               className="rounded-xl transition-transform duration-300 group-hover:scale-105"
               />
 
