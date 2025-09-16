@@ -13,10 +13,10 @@ type NavItem = {
 
 const navItems: NavItem[] = [
     { key: "home", label: "Home", icon: <Home size={20} strokeWidth={2} />, href: "/" },
-    { key: "flash", label: "Flash", icon: <Layers size={20} strokeWidth={2} />, href: "/flash-cards" },
-    { key: "papers", label: "Papers", icon: <FileText size={20} strokeWidth={2} />, href: "/question-papers" },
     { key: "revision", label: "Revision", icon: <RefreshCcw size={20} strokeWidth={2} />, href: "/revision" },
-    { key: "friends", label: "Friends", icon: <Users size={20} strokeWidth={2} />, href: "/friends" },
+    { key: "flash", label: "Flash", icon: <Layers size={20} strokeWidth={2} />, href: "/flash-cards" },
+    // { key: "papers", label: "Papers", icon: <FileText size={20} strokeWidth={2} />, href: "/question-papers" },
+    // { key: "friends", label: "Friends", icon: <Users size={20} strokeWidth={2} />, href: "/friends" },
 ];
 
 function useScrollShow(threshold = 6) {
