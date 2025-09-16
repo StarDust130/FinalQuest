@@ -27,6 +27,7 @@ const HeroCard = ({ onStart, className }: HeroCardProps) => {
         "shadow-[12px_12px_0_0_#000] md:shadow-[14px_14px_0_0_#000]",
         "transition-all duration-500",
         "hover:-translate-x-1.5 hover:-translate-y-1.5 hover:shadow-[18px_18px_0_0_#000]",
+        "focus-within:-translate-x-1.5 focus-within:-translate-y-1.5 focus-within:shadow-[18px_18px_0_0_#000]",
         "active:translate-x-0 active:translate-y-0 active:shadow-[8px_8px_0_0_#000]",
         "overflow-hidden backdrop-blur supports-[backdrop-filter]:bg-white/90 dark:supports-[backdrop-filter]:bg-neutral-900/95",
         className
@@ -34,7 +35,7 @@ const HeroCard = ({ onStart, className }: HeroCardProps) => {
     >
       {/* subtle gradient glow */}
       <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-black/5 dark:ring-white/10">
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-[radial-gradient(circle_at_18%_22%,#6366f155,transparent_60%),radial-gradient(circle_at_82%_78%,#ff3e0055,transparent_55%)] dark:bg-[radial-gradient(circle_at_18%_22%,#5d5dff55,transparent_60%),radial-gradient(circle_at_82%_78%,#ff3e0055,transparent_55%)]" />
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-700 bg-[radial-gradient(circle_at_18%_22%,#6366f155,transparent_60%),radial-gradient(circle_at_82%_78%,#ff3e0055,transparent_55%)] dark:bg-[radial-gradient(circle_at_18%_22%,#5d5dff55,transparent_60%),radial-gradient(circle_at_82%_78%,#ff3e0055,transparent_55%)]" />
       </div>
 
       {/* corner accent + star */}
@@ -44,10 +45,10 @@ const HeroCard = ({ onStart, className }: HeroCardProps) => {
       </div>
 
       {/* soft grid */}
-      <div className="absolute inset-0 opacity-40 md:opacity-50 bg-[linear-gradient(to_right,rgba(0,0,0,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.06)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.09)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.09)_1px,transparent_1px)] bg-[size:12px_12px] pointer-events-none transition-opacity duration-700 group-hover:opacity-70" />
+      <div className="absolute inset-0 opacity-40 md:opacity-50 bg-[linear-gradient(to_right,rgba(0,0,0,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.06)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.09)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.09)_1px,transparent_1px)] bg-[size:12px_12px] pointer-events-none transition-opacity duration-700 group-hover:opacity-70 group-focus-within:opacity-70" />
 
       {/* dot overlay */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-700 bg-[radial-gradient(rgba(0,0,0,0.15)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.18)_1px,transparent_1px)] bg-[size:18px_18px]" />
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-40 group-focus-within:opacity-40 transition-opacity duration-700 bg-[radial-gradient(rgba(0,0,0,0.15)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.18)_1px,transparent_1px)] bg-[size:18px_18px]" />
 
       {/* faint noise */}
       <div className="absolute inset-0 mix-blend-overlay opacity-20 pointer-events-none [background-image:repeating-radial-gradient(circle_at_0_0,rgba(0,0,0,0.15)_0,rgba(0,0,0,0.15)_1px,transparent_1px,transparent_3px)] dark:[background-image:repeating-radial-gradient(circle_at_0_0,rgba(255,255,255,0.25)_0,rgba(255,255,255,0.25)_1px,transparent_1px,transparent_3px)]" />
@@ -72,7 +73,7 @@ const HeroCard = ({ onStart, className }: HeroCardProps) => {
           Sprint Recall
           <span className="absolute inset-0 opacity-25 bg-[repeating-linear-gradient(45deg,rgba(0,0,0,0.25)_0,rgba(0,0,0,0.25)_10px,transparent_10px,transparent_20px)] mix-blend-multiply" />
         </span>
-        <span className="bg-black text-white text-[0.55rem] md:text-[0.6rem] font-extrabold px-3 py-1 rounded-md border-[3px] border-black shadow-[4px_4px_0_0_#000] rotate-2 group-hover:-rotate-3 group-hover:scale-110 transition">
+        <span className="bg-black text-white text-[0.55rem] md:text-[0.6rem] font-extrabold px-3 py-1 rounded-md border-[3px] border-black shadow-[4px_4px_0_0_#000] rotate-2 group-hover:-rotate-3 group-hover:scale-110 group-focus-within:-rotate-3 group-focus-within:scale-110 transition">
           premium
         </span>
       </div>
@@ -130,7 +131,7 @@ const HeroCard = ({ onStart, className }: HeroCardProps) => {
                 "transition-all overflow-hidden group/button cursor-pointer"
               )}
             >
-              <span className="absolute inset-0 -translate-x-full group-hover/button:translate-x-full transition-transform duration-700 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.45),transparent)]" />
+              <span className="absolute inset-0 -translate-x-full group-hover/button:translate-x-full group-focus/button:translate-x-full transition-transform duration-700 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.45),transparent)]" />
               <Play className="w-4 h-4" />
               <span className="relative">Start Now</span>
             </button>
@@ -159,7 +160,7 @@ const HeroCard = ({ onStart, className }: HeroCardProps) => {
       </div>
 
       {/* accent rotated square */}
-      <div className="absolute -bottom-6 right-10 w-12 h-12 bg-indigo-500 dark:bg-[#4d61ff] border-[3px] border-neutral-900 dark:border-black rounded-md rotate-45 transition group-hover:rotate-[55deg] group-hover:scale-110 shadow-[0_0_0_3px_#000]" />
+      <div className="absolute -bottom-6 right-10 w-12 h-12 bg-indigo-500 dark:bg-[#4d61ff] border-[3px] border-neutral-900 dark:border-black rounded-md rotate-45 transition group-hover:rotate-[55deg] group-hover:scale-110 group-focus-within:rotate-[55deg] group-focus-within:scale-110 shadow-[0_0_0_3px_#000]" />
 
       {/* stamp */}
       <div className="absolute left-8 bottom-8 w-20 h-20 rounded-full border-2 border-neutral-300 dark:border-white/25 flex items-center justify-center rotate-[-15deg] opacity-30">
