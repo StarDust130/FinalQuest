@@ -14,8 +14,8 @@ type NavItem = {
 
 const navItems: NavItem[] = [
     { key: "home", label: "Home", icon: <Home size={20} strokeWidth={2} />, href: "/" },
-    { key: "revision", label: "Revision", icon: <GraduationCap size={20} strokeWidth={2} />, href: "/revision" },
-    { key: "flash", label: "Flash", icon: <Layers size={20} strokeWidth={2} />, href: "/flash-cards" },
+    { key: "rewise", label: "Rewise", icon: <GraduationCap size={20} strokeWidth={2} />, href: "/rewise" },
+    { key: "flash-cards", label: "Flash Cards", icon: <Layers size={20} strokeWidth={2} />, href: "/flash-cards" },
     // { key: "papers", label: "Papers", icon: <FileText size={20} strokeWidth={2} />, href: "/question-papers" },
     // { key: "friends", label: "Friends", icon: <Users size={20} strokeWidth={2} />, href: "/friends" },
 ];
