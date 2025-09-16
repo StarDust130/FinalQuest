@@ -279,7 +279,7 @@ const Header = () => {
                 }}
               >
                 <HelpCircle className="h-4 w-4 mr-2" />
-                Help
+                Need Help
               </DropdownMenuItem>
               <DropdownMenuItem
                 onSelect={() => {
