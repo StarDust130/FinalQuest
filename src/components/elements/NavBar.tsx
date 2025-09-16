@@ -144,13 +144,13 @@ const NavBar: React.FC = () => {
                                                 <motion.span
                                                     whileHover={!active ? { y: -2 } : undefined}
                                                     transition={{ type: "spring", stiffness: 380, damping: 26 }}
-                                                    className="flex [&>svg]:h-[16px] [&>svg]:w-[16px]"
+                                                    className="flex [&>svg]:h-[20px] [&>svg]:w-[20px]"
                                                 >
                                                     {item.icon}
                                                 </motion.span>
                                             </motion.span>
                                             <span
-                                                className={`relative z-10 text-[10px] font-medium tracking-wide leading-none
+                                                className={`relative z-10 text-[8px] font-medium tracking-wide leading-none
                                                     ${active
                                                         ? "text-neutral-50 dark:text-neutral-900"
                                                         : "text-neutral-600 dark:text-neutral-400 group-hover:text-neutral-800 dark:group-hover:text-neutral-100"
