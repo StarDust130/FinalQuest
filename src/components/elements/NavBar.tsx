@@ -104,42 +104,68 @@ const NavBar: React.FC = () => {
                 {visible && (
                     <motion.nav
                         key="mobile-nav"
-                        initial={{ y: 56, opacity: 0 }}
+                        initial={{ y: 40, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: 56, opacity: 0 }}
-                        transition={{ type: "spring", stiffness: 420, damping: 34 }}
-                        className="fixed inset-x-0 bottom-0 z-40 border-t border-neutral-200 bg-white/85 backdrop-blur-xl dark:border-neutral-800 dark:bg-neutral-950/85 md:hidden"
+                        exit={{ y: 40, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 360, damping: 32 }}
+                        className="fixed inset-x-0 bottom-0 z-40 md:hidden"
                         role="navigation"
                         aria-label="Primary"
                     >
-                        <div className="mx-auto flex max-w-xl gap-1.5 px-3 py-1.5">
-                            {navItems.map(item => {
-                                const active = pathname === item.href;
-                                return (
-                                    <button
-                                        key={item.key}
-                                        onClick={() => handleNav(item.href)}
-                                        aria-label={item.label}
-                                        aria-current={active ? "page" : undefined}
-                                        className={`group relative flex flex-1 flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-2 text-[10px] font-medium transition-all
-                                            focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-neutral-400/40 dark:focus-visible:ring-offset-neutral-950
-                                            ${active
-                                                ? "bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 shadow-sm ring-1 ring-neutral-300 dark:ring-neutral-600"
-                                                : "text-neutral-500 dark:text-neutral-400 hover:bg-neutral-100/70 dark:hover:bg-neutral-800/60 hover:text-neutral-900 dark:hover:text-neutral-50"
-                                            }`}
-                                    >
-                                        <motion.span
-                                            whileTap={{ scale: 0.85 }}
-                                            animate={active ? { y: -2, scale: 1.05 } : { y: 0, scale: 1 }}
-                                            transition={{ type: "spring", stiffness: 480, damping: 26 }}
-                                            className={`relative grid h-6 w-6 place-items-center ${active ? "text-inherit" : "text-neutral-600 dark:text-neutral-300 group-hover:text-neutral-900 dark:group-hover:text-neutral-100"}`}
+                        <div className="w-full border-t border-neutral-200/60 dark:border-neutral-800/70 backdrop-blur-xl bg-neutral-50/90 dark:bg-neutral-950/70 supports-[backdrop-filter]:bg-neutral-50/75 dark:supports-[backdrop-filter]:bg-neutral-950/60 shadow-[0_-6px_18px_-8px_rgba(0,0,0,0.25)] dark:shadow-[0_-6px_22px_-10px_rgba(0,0,0,0.65)]">
+                            <div className="mx-auto max-w-md flex">
+                                {navItems.map(item => {
+                                    const active = pathname === item.href;
+                                    return (
+                                        <button
+                                            key={item.key}
+                                            onClick={() => handleNav(item.href)}
+                                            aria-label={item.label}
+                                            aria-current={active ? "page" : undefined}
+                                            className="relative flex-1 h-14 flex flex-col items-center justify-center gap-1 group select-none outline-none focus-visible:ring-2 focus-visible:ring-neutral-900/40 dark:focus-visible:ring-neutral-200/40"
                                         >
-                                            {item.icon}
-                                        </motion.span>
-                                        <span className="relative leading-none">{item.label}</span>
-                                    </button>
-                                );
-                            })}
+                                            {active && (
+                                                <motion.span
+                                                    layoutId="mobile-active-pill"
+                                                    transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                                                    className="absolute top-1 left-1/2 -translate-x-1/2 h-12 w-16 rounded-2xl bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-700 dark:from-neutral-100 dark:via-neutral-200 dark:to-neutral-300 ring-1 ring-neutral-700/60 dark:ring-neutral-300/60 shadow-[0_4px_10px_-4px_rgba(0,0,0,0.45)] dark:shadow-[0_4px_12px_-6px_rgba(0,0,0,0.35)]"
+                                                />
+                                            )}
+                                            <motion.span
+                                                whileTap={{ scale: 0.9 }}
+                                                animate={active ? { y: -1, scale: 1.03 } : { y: 0, scale: 1 }}
+                                                transition={{ type: "spring", stiffness: 480, damping: 30 }}
+                                                className={`relative grid h-5 w-5 place-items-center text-[0px]
+                                                    ${active
+                                                        ? "text-neutral-50 dark:text-neutral-900"
+                                                        : "text-neutral-500 dark:text-neutral-400 group-hover:text-neutral-800 dark:group-hover:text-neutral-100"
+                                                    }`}
+                                            >
+                                                <motion.span
+                                                    whileHover={!active ? { y: -2 } : undefined}
+                                                    transition={{ type: "spring", stiffness: 380, damping: 26 }}
+                                                    className="flex [&>svg]:h-[16px] [&>svg]:w-[16px]"
+                                                >
+                                                    {item.icon}
+                                                </motion.span>
+                                            </motion.span>
+                                            <span
+                                                className={`relative z-10 text-[10px] font-medium tracking-wide leading-none
+                                                    ${active
+                                                        ? "text-neutral-900 dark:text-neutral-900"
+                                                        : "text-neutral-600 dark:text-neutral-400 group-hover:text-neutral-800 dark:group-hover:text-neutral-100"
+                                                    }`}
+                                            >
+                                                {item.label}
+                                            </span>
+                                            {!active && (
+                                                <span className="pointer-events-none absolute top-1 left-1/2 -translate-x-1/2 h-9 w-9 rounded-2xl opacity-0 group-hover:opacity-10 dark:group-hover:opacity-10 bg-neutral-950 transition-opacity" />
+                                            )}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                            <div className="h-[calc(env(safe-area-inset-bottom))]" />
                         </div>
                     </motion.nav>
                 )}
