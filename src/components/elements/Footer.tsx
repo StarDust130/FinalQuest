@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { memo, type MouseEvent } from "react";
 import { ModeToggle } from "../ModeToggle";
+import Image from "next/image";
 
 type FooterLink = {
   href: string;
@@ -58,40 +59,10 @@ const Footer = memo<FooterProps>(
               aria-label={`${appName} home`}
               title={`${appName} — scroll to top ⤴️`}
             >
-              <span className="relative inline-grid size-14 place-items-center rounded-2xl ring-1 ring-neutral-200/70 dark:ring-neutral-700/60 bg-white/80 dark:bg-neutral-900/60 shadow-sm overflow-hidden transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-md">
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-sky-500/10 to-fuchsia-500/25 opacity-90 transition-opacity group-hover:opacity-100"
-                />
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute -inset-6 bg-[conic-gradient(var(--tw-gradient-stops))] from-indigo-500/20 via-sky-400/20 to-fuchsia-500/20 blur-xl opacity-0 group-hover:opacity-60 transition-opacity"
-                />
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  aria-hidden="true"
-                  className="relative h-8 w-8 text-indigo-600 dark:text-indigo-400 drop-shadow-[0_1px_4px_rgba(79,70,229,0.35)]"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="7.5"
-                    stroke="currentColor"
-                    strokeWidth="1.2"
-                    opacity="0.85"
-                  />
-                  <path
-                    d="M12 6.75v3.25m0 7.25v-3.25M17.25 12h-3.25M6.75 12h3.25"
-                    stroke="currentColor"
-                    strokeWidth="1.2"
-                    strokeLinecap="round"
-                    opacity="0.6"
-                  />
-                  <path d="M12 12l4.4-2.3-2.3 4.4L12 12z" fill="currentColor" />
-                  <circle cx="12" cy="12" r="1.7" fill="currentColor" />
-                </svg>
-              </span>
+      
+
+               <Image src="/icon.png" alt="logo" width={80} height={80} className="rounded-xl"/>
+          
 
               <div className="leading-tight text-center sm:text-left">
                 <div className="font-semibold text-neutral-900 dark:text-neutral-100 text-xl sm:text-2xl tracking-tight">
@@ -164,7 +135,7 @@ const Footer = memo<FooterProps>(
             </div>
 
             <p className="text-center text-[11px] text-neutral-500 dark:text-neutral-400 leading-snug">
-              🛠️ Side project by a CGPSC aspirant — MVP experiment in progress
+              🛠️ Side project for aspirant — MVP experiment in progress
               🚀
             </p>
             <p className="text-xs text-center mt-3">
