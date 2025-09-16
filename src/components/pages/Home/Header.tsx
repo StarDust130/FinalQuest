@@ -157,7 +157,7 @@ const Header = () => {
     <header className="w-full px-3 sm:px-6 backdrop-blur supports-[backdrop-filter]:bg-background/55">
       <div className="h-14 sm:h-16 flex items-center justify-between">
         {/* Left: Greeting */}
-        <div className="flex items-center gap-3 min-w-0">
+        <div className="flex items-center gap-3 md:ml-20">
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight truncate">
             <span className="bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
               Hey, {userName}

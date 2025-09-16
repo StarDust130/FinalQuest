@@ -45,7 +45,7 @@ const Footer = memo<FooterProps>(
     return (
       <footer
         role="contentinfo"
-        className={`relative w-full border-t border-neutral-200 dark:border-neutral-800 bg-white/70 dark:bg-neutral-950/80 backdrop-blur-md rounded-3xl shadow-inner shadow-black/10 dark:shadow-black/20 mt-12 sm:mt-24 ${className}`}
+        className={`relative max-w-[1390px] mx-auto border-t border-neutral-200 dark:border-neutral-800 bg-white/70 dark:bg-neutral-950/80 backdrop-blur-md rounded-3xl md:rounded-none shadow-inner shadow-black/10 dark:shadow-black/20 mt-12 sm:mt-24 ${className}`}
       >
         <div className="mx-auto max-w-6xl px-5 sm:px-8 py-10">
           {/* Brand + Nav */}
