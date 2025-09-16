@@ -84,9 +84,9 @@ const HeroCard = ({ onStart, className }: HeroCardProps) => {
         </div>
 
         <p className="text-sm md:text-[0.9rem] font-medium text-neutral-700 dark:text-neutral-200 leading-relaxed mb-6 max-w-prose">
-          Micro-speed drills that forge sharp recall and crystal concept clarity.
-          Adaptive spacing locks knowledge in. Streak energy builds habit. Fast input.
-          Durable memory. Zero fluff.
+          Micro-speed drills that forge sharp recall and crystal concept
+          clarity. Adaptive spacing locks knowledge in. Streak energy builds
+          habit. Fast input. Durable memory. Zero fluff.
         </p>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
@@ -95,7 +95,7 @@ const HeroCard = ({ onStart, className }: HeroCardProps) => {
               key={f.title}
               className="flex items-center gap-2 group/feat cursor-default"
             >
-              <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-indigo-500 dark:bg-[#4d61ff] border-[3px] border-neutral-900 dark:border-black shadow-[5px_5px_0_0_#000] text-lg transition-transform group-hover/feat:-rotate-6 group-hover/feat:scale-110 text-white font-bold">
+              <div className="w-10 h-10 flex items-center justify-center rounded-lg dark:bg-sky-600 bg-sky-500 border-[3px] border-neutral-900 dark:border-black shadow-[5px_5px_0_0_#000] text-lg transition-transform group-hover/feat:-rotate-6 group-hover/feat:scale-110 text-white font-bold">
                 {f.emoji}
               </div>
               <div className="leading-tight">
@@ -112,35 +112,36 @@ const HeroCard = ({ onStart, className }: HeroCardProps) => {
 
         {/* pricing + action */}
         <div className="relative flex flex-col sm:flex-row sm:items-center gap-7 sm:gap-0 justify-between pt-6 mt-2 border-t-2 border-dashed border-neutral-300 dark:border-white/15 cursor-pointer md:justify-center ">
-
-
-            <button
-              type="button"
-              aria-label="Start sprint"
-              onClick={() => onStart?.()}
-              className={cn(
-                "relative inline-flex items-center justify-center gap-1",
-                "bg-indigo-500 dark:bg-[#4d61ff] hover:bg-indigo-600 dark:hover:bg-[#5e70ff] text-white font-extrabold text-xs md:text-sm",
-                "px-7 py-3 rounded-lg border-[4px] border-neutral-900 dark:border-black tracking-wider uppercase",
-                "shadow-[6px_6px_0_0_#000] hover:shadow-[8px_8px_0_0_#000]",
-                "active:translate-x-1 active:translate-y-1 active:shadow-[3px_3px_0_0_#000]",
-                "transition-all overflow-hidden group/button cursor-pointer"
-              )}
-            >
-              <span className="absolute inset-0 -translate-x-full group-hover/button:translate-x-full transition-transform duration-700 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.45),transparent)]" />
-              <Play className="w-4 h-4" />
-              <span className="relative">Start Now</span>
-            </button>
+          <button
+            type="button"
+            aria-label="Start sprint"
+            onClick={() => onStart?.()}
+            className={cn(
+              "relative inline-flex items-center justify-center gap-1",
+              "dark:bg-sky-600 bg-sky-500 hover:bg-indigo-600 dark:hover:bg-[#5e70ff] text-white font-extrabold text-xs md:text-sm",
+              "px-7 py-3 rounded-lg border-[4px] border-neutral-900 dark:border-black tracking-wider uppercase",
+              "shadow-[6px_6px_0_0_#000] hover:shadow-[8px_8px_0_0_#000]",
+              "active:translate-x-1 active:translate-y-1 active:shadow-[3px_3px_0_0_#000]",
+              "transition-all overflow-hidden group/button cursor-pointer"
+            )}
+          >
+            <span className="absolute inset-0 -translate-x-full group-hover/button:translate-x-full transition-transform duration-700 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.45),transparent)]" />
+            <Play className="w-4 h-4" />
+            <span className="relative">Start Now</span>
+          </button>
         </div>
       </div>
 
       {/* decorative dots */}
       <div className="absolute -left-10 bottom-20 w-40 opacity-20 md:opacity-30 -rotate-6 pointer-events-none">
-        <svg viewBox="0 0 80 40" className="w-full h-full fill-neutral-700 dark:fill-white">
+        <svg
+          viewBox="0 0 80 40"
+          className="w-full h-full fill-neutral-700 dark:fill-white"
+        >
           <circle r="3" cy="10" cx="10" />
           <circle r="3" cy="10" cx="30" />
           <circle r="3" cy="10" cx="50" />
-            <circle r="3" cy="10" cx="70" />
+          <circle r="3" cy="10" cx="70" />
           <circle r="3" cy="20" cx="20" />
           <circle r="3" cy="20" cx="40" />
           <circle r="3" cy="20" cx="60" />
