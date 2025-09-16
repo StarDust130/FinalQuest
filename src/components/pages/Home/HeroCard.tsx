@@ -111,7 +111,7 @@ const HeroCard = ({ onStart, className }: HeroCardProps) => {
         </div>
 
         {/* pricing + action */}
-        <div className="relative flex flex-col sm:flex-row sm:items-center gap-7 sm:gap-0 justify-between pt-6 mt-2 border-t-2 border-dashed border-neutral-300 dark:border-white/15">
+        <div className="relative flex flex-col sm:flex-row sm:items-center gap-7 sm:gap-0 justify-between pt-6 mt-2 border-t-2 border-dashed border-neutral-300 dark:border-white/15 cursor-pointer md:justify-center ">
 
 
             <button
@@ -124,7 +124,7 @@ const HeroCard = ({ onStart, className }: HeroCardProps) => {
                 "px-7 py-3 rounded-lg border-[4px] border-neutral-900 dark:border-black tracking-wider uppercase",
                 "shadow-[6px_6px_0_0_#000] hover:shadow-[8px_8px_0_0_#000]",
                 "active:translate-x-1 active:translate-y-1 active:shadow-[3px_3px_0_0_#000]",
-                "transition-all overflow-hidden group/button"
+                "transition-all overflow-hidden group/button cursor-pointer"
               )}
             >
               <span className="absolute inset-0 -translate-x-full group-hover/button:translate-x-full transition-transform duration-700 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.45),transparent)]" />
