@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Home, Layers, FileText, RefreshCcw, Users } from "lucide-react";
+import { Home, Layers, FileText, RefreshCcw, Users, GraduationCap } from "lucide-react";
 
 type NavItem = {
     key: string;
@@ -13,7 +14,7 @@ type NavItem = {
 
 const navItems: NavItem[] = [
     { key: "home", label: "Home", icon: <Home size={20} strokeWidth={2} />, href: "/" },
-    { key: "revision", label: "Revision", icon: <RefreshCcw size={20} strokeWidth={2} />, href: "/revision" },
+    { key: "revision", label: "Revision", icon: <GraduationCap size={20} strokeWidth={2} />, href: "/revision" },
     { key: "flash", label: "Flash", icon: <Layers size={20} strokeWidth={2} />, href: "/flash-cards" },
     // { key: "papers", label: "Papers", icon: <FileText size={20} strokeWidth={2} />, href: "/question-papers" },
     // { key: "friends", label: "Friends", icon: <Users size={20} strokeWidth={2} />, href: "/friends" },
