@@ -59,40 +59,24 @@ const Footer = memo<FooterProps>(
               aria-label={`${appName} home`}
               title={`${appName} — scroll to top ⤴️`}
             >
-      
-
-               <Image src="/icon.png" alt="logo" width={80} height={80} className="rounded-xl"/>
-          
+              <Image
+              src="/icon.png"
+              alt="logo"
+              width={100}
+              height={100}
+              className="rounded-xl transition-transform duration-300 group-hover:scale-105"
+              />
 
               <div className="leading-tight text-center sm:text-left">
-                <div className="font-semibold text-neutral-900 dark:text-neutral-100 text-xl sm:text-2xl tracking-tight">
-                  <span className="inline-flex items-baseline gap-1">
-                    {(() => {
-                      const parts = appName.split(" ");
-                      const last = parts.pop();
-                      const first = parts.join(" ");
-                      return (
-                        <>
-                          {first ? (
-                            <span className="transition-colors">{first}</span>
-                          ) : null}
-                          {last ? (
-                            <span className="relative bg-gradient-to-r from-indigo-600 via-sky-500 to-fuchsia-500 bg-clip-text text-transparent">
-                              {last}
-                              <span
-                                aria-hidden="true"
-                                className="absolute inset-x-0 -bottom-0.5 h-px bg-gradient-to-r from-indigo-500/0 via-indigo-500/60 to-indigo-500/0 opacity-0 transition-opacity group-hover:opacity-100"
-                              />
-                            </span>
-                          ) : null}
-                        </>
-                      );
-                    })()}
-                  </span>
-                </div>
-                <div className="mt-1 text-xs font-semibold sm:text-sm text-neutral-500 dark:text-neutral-400">
-                  <span>{tagline}</span>
-                </div>
+              <div className="text-2xl  font-extrabold tracking-tight">
+              <span>Final </span>
+              <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-blue-600 bg-clip-text text-transparent">
+                Quest
+              </span>
+              </div>
+              <div className="mt-1 text-xs font-semibold sm:text-sm text-neutral-500 dark:text-neutral-400">
+              <span>{tagline}</span>
+              </div>
               </div>
             </Link>
 
