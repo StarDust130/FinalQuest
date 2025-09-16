@@ -21,8 +21,16 @@ interface FooterProps {
 }
 
 const defaultLinks: FooterLink[] = [
-  { href: "/privacy", label: "Privacy", icon: "🔒" },
-  { href: "/terms", label: "Terms", icon: "📜" },
+  {
+    href: "https://packaged-media.redd.it/8bzrms51gchb1/pb/m2-res_270p.mp4?m=DASHPlaylist.mpd&v=1&e=1758024000&s=7e9cf4f5bb65b0432a75e4e5202274cabba39f94",
+    label: "Privacy",
+    icon: "🔒",
+  },
+  {
+    href: "https://packaged-media.redd.it/maa2nbolwsfb1/pb/m2-res_1080p.mp4?m=DASHPlaylist.mpd&v=1&e=1758034800&s=c7d0494ab415c3350298a05533dea613acd0c89d",
+    label: "Terms",
+    icon: "📜",
+  },
 ];
 
 const Footer = memo<FooterProps>(
