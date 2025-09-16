@@ -152,7 +152,7 @@ const NavBar: React.FC = () => {
                                             <span
                                                 className={`relative z-10 text-[10px] font-medium tracking-wide leading-none
                                                     ${active
-                                                        ? "text-neutral-900 dark:text-neutral-900"
+                                                        ? "text-neutral-50 dark:text-neutral-900"
                                                         : "text-neutral-600 dark:text-neutral-400 group-hover:text-neutral-800 dark:group-hover:text-neutral-100"
                                                     }`}
                                             >
