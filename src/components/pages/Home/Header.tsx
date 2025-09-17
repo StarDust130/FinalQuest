@@ -152,6 +152,11 @@ const Header = () => {
   }, [profileOpen, avatarSrc, userName]);
 
   const nameIsChanged = nameInput.trim() && nameInput.trim() !== userName;
+  const capitalizeFirstWord = (str: string): string => {
+    if (!str) return str;
+    return str.replace(/^\w/, (char) => char.toUpperCase());
+  };
+  const userNameCapitalized = capitalizeFirstWord(userName);
 
   return (
     <header className="w-full px-3 sm:px-6 backdrop-blur supports-[backdrop-filter]:bg-background/55">
@@ -160,7 +165,7 @@ const Header = () => {
         <div className="flex items-center gap-3 md:ml-20">
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight truncate">
             <span className="bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
-              Hey, {userName}
+              Hey, {userNameCapitalized}
             </span>
           </h1>
           {!prefersReducedMotion && (
@@ -239,9 +244,9 @@ const Header = () => {
               align="end"
               className="w-56 rounded-xl shadow-lg border-border/50"
             >
-              <DropdownMenuLabel className="flex items-center gap-2">
+              <DropdownMenuLabel className="flex items-center justify-start gap-3">
                 <User2 className="h-4 w-4" />
-                {userName}
+                {userNameCapitalized}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onSelect={() => setProfileOpen(true)}>
@@ -266,8 +271,7 @@ const Header = () => {
                 onChange={handleAvatarChange}
               />
               <DropdownMenuItem className=" md:hidden">
-          
-                <ModeToggle variant="text"  />
+                <ModeToggle variant="text" />
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
