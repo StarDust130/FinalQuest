@@ -211,7 +211,7 @@ export default function RewisePage() {
   };
 
   return (
-    <div className="h-[100dvh] w-full overflow-hidden bg-[#F4F4F4] dark:bg-[#0E1117] text-black dark:text-white px-3 sm:px-4 py-3 font-['Inter',sans-serif]">
+    <div className="h-[100dvh] w-full overflow-hidden bg-[#F4F4F4] dark:bg-[#111] text-black dark:text-white px-3 sm:px-4 py-3 font-['Inter',sans-serif]">
       <div className="max-w-4xl mx-auto h-full flex flex-col gap-3">
         <Header
           mode={mode}
@@ -271,8 +271,8 @@ function Header({
   onBack: () => void;
   onEnd: () => void;
 }) {
-  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0]";
-  const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-[2px] dark:active:translate-y-[2px]";
+  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444]";
+  const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-0 dark:active:translate-y-0 dark:active:scale-[0.98]";
 
   return (
     <div className="flex flex-col gap-2">
@@ -280,7 +280,7 @@ function Header({
         {mode === "topic" ? (
           <button
             onClick={onBack}
-            className={`flex items-center gap-2 bg-white dark:bg-[#141922] border-2 border-black dark:border-white/80 ${shadowClass} px-3 py-2 font-bold ${activeClass} transition-transform text-sm`}
+            className={`flex items-center gap-2 bg-white dark:bg-zinc-900 border-2 border-black dark:border-zinc-500 ${shadowClass} px-3 py-2 font-bold ${activeClass} transition-transform text-sm`}
           >
             <BackArrowIcon />
             Back
@@ -288,19 +288,19 @@ function Header({
         ) : (
           <button
             onClick={onEnd}
-            className={`bg-[#EF4444] text-black dark:text-white border-2 border-black dark:border-white/80 ${shadowClass} px-3 py-2 font-bold ${activeClass} transition-transform text-sm`}
+            className={`bg-[#EF4444] text-white border-2 border-black dark:border-zinc-500 ${shadowClass} px-3 py-2 font-bold ${activeClass} transition-transform text-sm`}
           >
             End Session
           </button>
         )}
 
-        <div className={`bg-white dark:bg-[#141922] border-2 border-black dark:border-white/80 ${shadowClass} px-3 py-2 font-extrabold text-sm`}>
+        <div className={`bg-white dark:bg-zinc-900 border-2 border-black dark:border-zinc-500 ${shadowClass} px-3 py-2 font-extrabold text-sm`}>
           {timeLabel}
         </div>
       </div>
 
       {mode === "chat" && typeof progress === "number" && (
-        <div className={`w-full bg-white dark:bg-[#141922] border-2 border-black dark:border-white/80 ${shadowClass} h-3 relative`}>
+        <div className={`w-full bg-white dark:bg-zinc-900 border-2 border-black dark:border-zinc-500 ${shadowClass} h-3 relative overflow-hidden`}>
           <div
             className="h-full bg-[#0A74F0]"
             style={{ width: `${progress}%`, transition: "width 300ms ease" }}
@@ -332,14 +332,14 @@ function TopicEntry({
     { label: "No Limit", value: 0 },
   ];
   const suggestions = ["Photosynthesis", "The Gupta Empire", "Trigonometry", "WWII causes"];
-  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0]";
-  const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-[2px] dark:active:translate-y-[2px]";
-  const smallActiveClass = "active:shadow-none active:translate-x-[2px] active:translate-y-[2px] dark:active:translate-x-[1px] dark:active:translate-y-[1px]";
-  const smallShadowClass = "shadow-[2px_2px_0px_#000] dark:shadow-[1px_1px_0px_#A0A0A0]";
+  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444]";
+  const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-0 dark:active:translate-y-0 dark:active:scale-[0.98]";
+  const smallActiveClass = "active:shadow-none active:translate-x-[2px] active:translate-y-[2px] dark:active:translate-x-0 dark:active:translate-y-0 dark:active:scale-[0.98]";
+  const smallShadowClass = "shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#444]";
 
   return (
     <div className="flex-1 min-h-0 flex items-center justify-center">
-      <div className={`w-full max-w-xl bg-white/50 dark:bg-transparent border-2 border-black dark:border-white/80 ${shadowClass} p-5 sm:p-6`}>
+      <div className={`w-full max-w-xl bg-white/50 dark:bg-zinc-900/80 border-2 border-black dark:border-zinc-500 ${shadowClass} p-5 sm:p-6`}>
         <div className="flex items-center gap-3 sm:gap-4 mb-4">
           <div className="shrink-0"><BrainSparkSVG /></div>
           <div>
@@ -354,11 +354,11 @@ function TopicEntry({
             onChange={(e) => setTopic(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && onStart()}
             placeholder="e.g., The Gupta Empire"
-            className={`flex-1 bg-white dark:bg-[#141922] text-black dark:text-white placeholder-black/60 dark:placeholder-white/60 px-3 py-3 border-2 border-black dark:border-white/80 ${shadowClass} focus:outline-none text-sm`}
+            className={`flex-1 bg-white dark:bg-zinc-900 text-black dark:text-white placeholder-black/60 dark:placeholder-white/60 px-3 py-3 border-2 border-black dark:border-zinc-500 ${shadowClass} focus:outline-none focus:ring-2 dark:focus:ring-blue-500 focus:ring-blue-600 text-sm`}
           />
           <button
             onClick={onStart}
-            className={`whitespace-nowrap bg-[#FFD700] border-2 border-black dark:border-white/80 ${shadowClass} px-4 sm:px-5 py-3 font-extrabold ${activeClass} transition-transform text-sm`}
+            className={`whitespace-nowrap bg-[#FFD700] text-black border-2 border-black dark:border-zinc-500 ${shadowClass} px-4 sm:px-5 py-3 font-extrabold ${activeClass} transition-transform text-sm`}
           >
             Start
           </button>
@@ -371,7 +371,7 @@ function TopicEntry({
               <button
                 key={opt.label}
                 onClick={() => setDuration(opt.value)}
-                className={`text-xs sm:text-sm border-2 border-black dark:border-white/80 ${smallShadowClass} ${smallActiveClass} px-2 py-2 font-bold transition-transform ${duration === opt.value ? 'bg-[#0A74F0] text-white' : 'bg-white dark:bg-[#141922]'}`}
+                className={`text-xs sm:text-sm border-2 border-black dark:border-zinc-600 ${smallShadowClass} ${smallActiveClass} px-2 py-2 font-bold transition-all ${duration === opt.value ? 'bg-[#0A74F0] text-white dark:border-blue-500' : 'bg-white dark:bg-zinc-800 dark:hover:bg-zinc-700'}`}
               >
                 {opt.label}
               </button>
@@ -385,7 +385,7 @@ function TopicEntry({
             <button
               key={i}
               onClick={() => setTopic(s)}
-              className={`text-xs sm:text-sm bg-white dark:bg-[#0E1117] border-2 border-black dark:border-white/80 ${smallShadowClass} px-3 py-1.5 font-bold shrink-0 ${smallActiveClass} transition-transform`}
+              className={`text-xs sm:text-sm bg-white dark:bg-zinc-800 dark:hover:bg-zinc-700 border-2 border-black dark:border-zinc-600 ${smallShadowClass} px-3 py-1.5 font-bold shrink-0 ${smallActiveClass} transition-all`}
             >
               {s}
             </button>
@@ -398,8 +398,8 @@ function TopicEntry({
 
 /* Session Summary Screen */
 function SummaryScreen({ summary, onRestart }: { summary: SummaryData; onRestart: () => void }) {
-  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0]";
-  const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-[2px] dark:active:translate-y-[2px]";
+  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444]";
+  const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-0 dark:active:translate-y-0 dark:active:scale-[0.98]";
   const readinessColor = {
     "Ready": "bg-green-500",
     "Needs Review": "bg-yellow-500",
@@ -408,44 +408,44 @@ function SummaryScreen({ summary, onRestart }: { summary: SummaryData; onRestart
 
   return (
     <div className="flex-1 min-h-0 flex items-center justify-center">
-      <div className={`w-full max-w-2xl bg-white/50 dark:bg-transparent border-2 border-black dark:border-white/80 ${shadowClass} p-5 sm:p-6`}>
+      <div className={`w-full max-w-2xl bg-white/50 dark:bg-zinc-900/80 border-2 border-black dark:border-zinc-500 ${shadowClass} p-5 sm:p-6`}>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-center">Session Report</h1>
-        <p className="text-center text-sm opacity-80 mb-4">Topic: {summary.topic}</p>
+        <p className="text-center text-sm opacity-60 mb-4">Topic: {summary.topic}</p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
           <div className="flex flex-col items-center justify-center">
             <p className="font-bold mb-2">Overall Score</p>
-            <div className={`relative h-32 w-32 flex items-center justify-center font-extrabold text-4xl border-4 border-black dark:border-white/80 rounded-full ${shadowClass}`}>
+            <div className={`relative h-32 w-32 flex items-center justify-center font-extrabold text-4xl border-4 border-black dark:border-2 dark:border-zinc-400 rounded-full ${shadowClass}`}>
               {summary.score}<span className="text-lg opacity-70">/10</span>
             </div>
-            <div className={`mt-4 px-3 py-1 text-sm font-bold text-black ${readinessColor} border-2 border-black ${shadowClass}`}>
+            <div className={`mt-4 px-3 py-1 text-sm font-bold text-black ${readinessColor} border-2 border-black dark:border-zinc-500 ${shadowClass}`}>
               {summary.examReadiness}
             </div>
           </div>
           <div className="space-y-3">
             <div>
               <h3 className="font-bold flex items-center gap-2"><CheckIcon /> Strengths</h3>
-              <ul className="list-disc list-inside text-sm pl-2 mt-1 space-y-1">
+              <ul className="list-disc list-inside text-sm pl-2 mt-1 space-y-1 opacity-90">
                 {summary.strengths.map((s, i) => <li key={i}>{s}</li>)}
               </ul>
             </div>
             <div>
               <h3 className="font-bold flex items-center gap-2"><CrossIcon /> Weaknesses</h3>
-              <ul className="list-disc list-inside text-sm pl-2 mt-1 space-y-1">
+              <ul className="list-disc list-inside text-sm pl-2 mt-1 space-y-1 opacity-90">
                 {summary.weaknesses.map((w, i) => <li key={i}>{w}</li>)}
               </ul>
             </div>
           </div>
         </div>
 
-        <div className={`mt-5 bg-white dark:bg-[#141922] border-2 border-black dark:border-white/80 ${shadowClass} p-4`}>
+        <div className={`mt-5 bg-white dark:bg-zinc-900 border-2 border-black dark:border-zinc-500 ${shadowClass} p-4`}>
           <h3 className="font-bold text-sm mb-1">AI Feedback</h3>
-          <p className="text-sm">{summary.feedback}</p>
+          <p className="text-sm opacity-90">{summary.feedback}</p>
         </div>
 
         <button
           onClick={onRestart}
-          className={`w-full mt-5 bg-[#FFD700] border-2 border-black dark:border-white/80 ${shadowClass} px-5 py-3 font-extrabold ${activeClass} transition-transform text-sm`}
+          className={`w-full mt-5 bg-[#FFD700] text-black border-2 border-black dark:border-zinc-500 ${shadowClass} px-5 py-3 font-extrabold ${activeClass} transition-transform text-sm`}
         >
           Start Another Session
         </button>
@@ -514,13 +514,13 @@ function Composer({
   onSend: () => void;
   onFocusInput: () => void;
 }) {
-  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0]";
-  const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-[2px] dark:active:translate-y-[2px]";
+  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444]";
+  const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-0 dark:active:translate-y-0 dark:active:scale-[0.98]";
 
   return (
     <div className="pt-2">
       <div
-        className={`flex items-center gap-2 sm:gap-3 bg-[#F4F4F4] dark:bg-[#0E1117] border-2 border-black dark:border-white/80 ${shadowClass} p-2 sm:p-3`}
+        className={`flex items-center gap-2 sm:gap-3 bg-[#F4F4F4] dark:bg-[#111] border-2 border-black dark:border-t dark:border-zinc-500 ${shadowClass} p-2 sm:p-3`}
         style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
       >
         <input
@@ -529,12 +529,12 @@ function Composer({
           onKeyDown={(e) => e.key === "Enter" && onSend()}
           onFocus={onFocusInput}
           placeholder="Type your message..."
-          className={`flex-1 bg-white dark:bg-[#141922] text-black dark:text-white placeholder-black/60 dark:placeholder-white/60 px-3 sm:px-4 py-3 border-2 border-black dark:border-white/80 ${shadowClass} focus:outline-none text-sm`}
+          className={`flex-1 bg-white dark:bg-zinc-900 text-black dark:text-white placeholder-black/60 dark:placeholder-white/60 px-3 sm:px-4 py-3 border-2 border-black dark:border-zinc-500 ${shadowClass} focus:outline-none focus:ring-2 dark:focus:ring-blue-500 focus:ring-blue-600 text-sm`}
         />
         <button
           onClick={onSend}
           disabled={!value.trim()}
-          className={`h-11 w-11 sm:h-12 sm:w-12 flex items-center justify-center bg-[#0A74F0] text-white disabled:opacity-60 border-2 border-black dark:border-white/80 ${shadowClass} ${activeClass} transition-transform`}
+          className={`h-11 w-11 sm:h-12 sm:w-12 flex items-center justify-center bg-[#0A74F0] text-white disabled:opacity-60 border-2 border-black dark:border-zinc-500 ${shadowClass} ${activeClass} transition-transform`}
           aria-label="Send"
           title="Send"
         >
@@ -557,24 +557,24 @@ function AIBubble({
   suggestions?: string[];
   onSuggestionClick: (s: string) => void;
 }) {
-  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0]";
-  const smallShadowClass = "shadow-[2px_2px_0px_#000] dark:shadow-[1px_1px_0px_#A0A0A0]";
-  const smallActiveClass = "active:shadow-none active:translate-x-[2px] active:translate-y-[2px] dark:active:translate-x-[1px] dark:active:translate-y-[1px]";
+  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444]";
+  const smallShadowClass = "shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#444]";
+  const smallActiveClass = "active:shadow-none active:translate-x-[2px] active:translate-y-[2px] dark:active:translate-x-0 dark:active:translate-y-0 dark:active:scale-[0.98]";
 
   return (
     <div className="flex items-start gap-2 sm:gap-3">
       <div className="shrink-0"><RobotIcon /></div>
       <div className="max-w-[85%] sm:max-w-[70%]">
-        <div className={`bg-[#ECECEC] dark:bg-[#171C24] border-2 border-black dark:border-white/80 ${shadowClass} p-3 sm:p-4`}>
+        <div className={`bg-[#ECECEC] dark:bg-zinc-900 border-2 border-black dark:border-zinc-500 ${shadowClass} p-3 sm:p-4`}>
           <p className="font-bold text-xs sm:text-sm">AI</p>
-          <p className="mt-1 text-sm">{text}</p>
+          <p className="mt-1 text-sm opacity-90">{text}</p>
           {!!suggestions?.length && (
             <div className="mt-3 flex flex-wrap gap-2">
               {suggestions.map((s, i) => (
                 <button
                   key={`${i}-${s}`}
                   onClick={() => onSuggestionClick(s)}
-                  className={`text-xs sm:text-sm bg-white dark:bg-[#0E1117] border-2 border-black dark:border-white/80 ${smallShadowClass} px-3 py-1.5 font-bold ${smallActiveClass} transition-transform`}
+                  className={`text-xs sm:text-sm bg-white dark:bg-zinc-800 dark:hover:bg-zinc-700 border-2 border-black dark:border-zinc-600 ${smallShadowClass} px-3 py-1.5 font-bold ${smallActiveClass} transition-all`}
                 >
                   {s}
                 </button>
@@ -589,11 +589,11 @@ function AIBubble({
 }
 
 function UserBubble({ text, timestamp }: { text: string; timestamp: number }) {
-  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0]";
+  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444]";
   return (
     <div className="flex justify-end">
       <div className="max-w-[85%] sm:max-w-[70%]">
-        <div className={`bg-[#0A74F0] text-white border-2 border-black dark:border-white/80 ${shadowClass} p-3 sm:p-4`}>
+        <div className={`bg-[#0A74F0] text-white border-2 border-black dark:border-zinc-500 ${shadowClass} p-3 sm:p-4`}>
           <p className="font-bold text-xs sm:text-sm">You</p>
           <p className="mt-1 text-sm">{text}</p>
         </div>
@@ -617,15 +617,15 @@ function MCQBlock({
   selectedIndex?: number;
   onSelect: (idx: number) => void;
 }) {
-  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0]";
-  const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-[2px] dark:active:translate-y-[2px]";
+  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444]";
+  const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-0 dark:active:translate-y-0 dark:active:scale-[0.98]";
 
   return (
     <div className="flex items-start gap-2 sm:gap-3">
       <div className="shrink-0"><RobotIcon /></div>
-      <div className={`w-full max-w-[700px] bg-[#ECECEC] dark:bg-[#171C24] border-2 border-black dark:border-white/80 ${shadowClass} p-3 sm:p-4`}>
+      <div className={`w-full max-w-[700px] bg-[#ECECEC] dark:bg-zinc-900 border-2 border-black dark:border-zinc-500 ${shadowClass} p-3 sm:p-4`}>
         <p className="font-bold text-xs sm:text-sm mb-2">Checkpoint</p>
-        <p className="mb-3 text-sm">{question}</p>
+        <p className="mb-3 text-sm opacity-90">{question}</p>
         <div className="space-y-2">
           {options.map((opt, idx) => {
             const selected = selectedIndex === idx;
@@ -634,7 +634,7 @@ function MCQBlock({
                 key={`${id}-${idx}`}
                 onClick={() => onSelect(idx)}
                 disabled={selectedIndex !== undefined}
-                className={`w-full text-left px-3 sm:px-4 py-2.5 border-2 border-black dark:border-white/80 ${shadowClass} font-bold text-sm transition-transform disabled:cursor-not-allowed ${!selected && selectedIndex !== undefined ? 'opacity-60' : ''} ${activeClass} ${selected ? "bg-[#FFD700]" : "bg-white dark:bg-[#0E1117] text-black dark:text-white"}`}
+                className={`w-full text-left px-3 sm:px-4 py-2.5 border-2 border-black dark:border-zinc-600 ${shadowClass} font-bold text-sm transition-all disabled:cursor-not-allowed ${!selected && selectedIndex !== undefined ? 'opacity-60' : ''} ${activeClass} ${selected ? "bg-[#FFD700] text-black dark:border-yellow-400" : "bg-white dark:bg-zinc-800 dark:hover:bg-zinc-700 text-black dark:text-white"}`}
               >
                 {opt}
               </button>
@@ -651,7 +651,7 @@ function TypingIndicator() {
   return (
     <div className="flex items-start gap-2 sm:gap-3">
       <div className="shrink-0"><RobotIcon /></div>
-      <div className="bg-[#ECECEC] dark:bg-[#171C24] border-2 border-black dark:border-white/80 shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0] px-4 py-3">
+      <div className="bg-[#ECECEC] dark:bg-zinc-900 border-2 border-black dark:border-zinc-500 shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444] px-4 py-3">
         <div className="flex gap-1">
           <Dot />
           <Dot delay="150ms" />
@@ -680,13 +680,13 @@ function PaperPlaneIcon() {
 }
 
 function RobotIcon() {
-  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0]";
+  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444]";
   return (
-    <div className={`h-9 w-9 sm:h-10 sm:w-10 bg-white dark:bg-[#141922] border-2 border-black dark:border-white/80 ${shadowClass} flex items-center justify-center`}>
+    <div className={`h-9 w-9 sm:h-10 sm:w-10 bg-white dark:bg-zinc-900 border-2 border-black dark:border-zinc-500 ${shadowClass} flex items-center justify-center`}>
       <svg width="18" height="18" viewBox="0 0 24 24" className="fill-black dark:fill-white">
         <rect x="4" y="6" width="16" height="12" rx="2" />
-        <circle cx="9" cy="12" r="1.5" className="fill-[#F4F4F4] dark:fill-[#0E1117]" />
-        <circle cx="15" cy="12" r="1.5" className="fill-[#F4F4F4] dark:fill-[#0E1117]" />
+        <circle cx="9" cy="12" r="1.5" className="fill-[#F4F4F4] dark:fill-zinc-900" />
+        <circle cx="15" cy="12" r="1.5" className="fill-[#F4F4F4] dark:fill-zinc-900" />
         <rect x="11" y="3" width="2" height="3" />
       </svg>
     </div>
@@ -699,12 +699,12 @@ function BrainSparkSVG() {
       width="64"
       height="64"
       viewBox="0 0 120 120"
-      className="border-2 border-black dark:border-white/80 shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0] bg-white dark:bg-[#0E1117]"
+      className="border-2 border-black dark:border-zinc-500 shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444] bg-white dark:bg-zinc-900"
     >
-      <rect x="8" y="8" width="104" height="104" className="fill-[#F4F4F4] dark:fill-[#0E1117]" stroke="currentColor" strokeWidth="2" />
+      <rect x="8" y="8" width="104" height="104" className="fill-[#F4F4F4] dark:fill-zinc-900" stroke="currentColor" strokeWidth="2" />
       <rect x="28" y="28" width="28" height="28" fill="#0A74F0" stroke="currentColor" strokeWidth="2" />
       <rect x="64" y="28" width="28" height="28" fill="#FFD700" stroke="currentColor" strokeWidth="2" />
-      <rect x="46" y="64" width="28" height="28" className="fill-[#ECECEC] dark:fill-[#171C24]" stroke="currentColor" strokeWidth="2" />
+      <rect x="46" y="64" width="28" height="28" className="fill-[#ECECEC] dark:fill-zinc-800" stroke="currentColor" strokeWidth="2" />
       <path d="M62 20 L54 44 L66 44 L58 68 L86 36 L70 36 L78 20 Z" fill="#34D399" stroke="currentColor" strokeWidth="2" />
     </svg>
   );
