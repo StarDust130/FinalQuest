@@ -124,7 +124,6 @@ export default function RewisePage() {
     const onResize = () => scrollToBottom(false);
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
   const mmss = useMemo(() => {
