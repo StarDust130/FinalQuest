@@ -211,7 +211,7 @@ export default function RewisePage() {
   };
 
   return (
-    <div className="h-[100dvh] w-full overflow-hidden bg-[#F4F4F4] dark:bg-[#111] text-black dark:text-white px-3 sm:px-4 py-3 font-['Inter',sans-serif]">
+    <div className="h-[100dvh] w-full overflow-hidden  px-3 sm:px-4 py-3 font-['Inter',sans-serif]">
       <div className="max-w-4xl mx-auto h-full flex flex-col gap-3">
         <Header
           mode={mode}
@@ -271,7 +271,7 @@ function Header({
   onBack: () => void;
   onEnd: () => void;
 }) {
-  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444]";
+  const shadowClass = "shadow-[4px_4px_0px_#000] ";
   const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-0 dark:active:translate-y-0 dark:active:scale-[0.98]";
 
   return (
@@ -332,7 +332,7 @@ function TopicEntry({
     { label: "No Limit", value: 0 },
   ];
   const suggestions = ["Photosynthesis", "The Gupta Empire", "Trigonometry", "WWII causes"];
-  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444]";
+  const shadowClass = "shadow-[4px_4px_0px_#000] ";
   const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-0 dark:active:translate-y-0 dark:active:scale-[0.98]";
   const smallActiveClass = "active:shadow-none active:translate-x-[2px] active:translate-y-[2px] dark:active:translate-x-0 dark:active:translate-y-0 dark:active:scale-[0.98]";
   const smallShadowClass = "shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#444]";
@@ -398,7 +398,7 @@ function TopicEntry({
 
 /* Session Summary Screen */
 function SummaryScreen({ summary, onRestart }: { summary: SummaryData; onRestart: () => void }) {
-  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444]";
+  const shadowClass = "shadow-[4px_4px_0px_#000] ";
   const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-0 dark:active:translate-y-0 dark:active:scale-[0.98]";
   const readinessColor = {
     "Ready": "bg-green-500",
@@ -514,7 +514,7 @@ function Composer({
   onSend: () => void;
   onFocusInput: () => void;
 }) {
-  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444]";
+  const shadowClass = "shadow-[4px_4px_0px_#000] ";
   const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-0 dark:active:translate-y-0 dark:active:scale-[0.98]";
 
   return (
@@ -557,7 +557,7 @@ function AIBubble({
   suggestions?: string[];
   onSuggestionClick: (s: string) => void;
 }) {
-  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444]";
+  const shadowClass = "shadow-[4px_4px_0px_#000] ";
   const smallShadowClass = "shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#444]";
   const smallActiveClass = "active:shadow-none active:translate-x-[2px] active:translate-y-[2px] dark:active:translate-x-0 dark:active:translate-y-0 dark:active:scale-[0.98]";
 
@@ -589,7 +589,7 @@ function AIBubble({
 }
 
 function UserBubble({ text, timestamp }: { text: string; timestamp: number }) {
-  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444]";
+  const shadowClass = "shadow-[4px_4px_0px_#000] ";
   return (
     <div className="flex justify-end">
       <div className="max-w-[85%] sm:max-w-[70%]">
@@ -617,7 +617,7 @@ function MCQBlock({
   selectedIndex?: number;
   onSelect: (idx: number) => void;
 }) {
-  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444]";
+  const shadowClass = "shadow-[4px_4px_0px_#000] ";
   const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-0 dark:active:translate-y-0 dark:active:scale-[0.98]";
 
   return (
@@ -651,7 +651,7 @@ function TypingIndicator() {
   return (
     <div className="flex items-start gap-2 sm:gap-3">
       <div className="shrink-0"><RobotIcon /></div>
-      <div className="bg-[#ECECEC] dark:bg-zinc-900 border-2 border-black dark:border-zinc-500 shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444] px-4 py-3">
+      <div className="bg-[#ECECEC] dark:bg-zinc-900 border-2 border-black dark:border-zinc-500 shadow-[4px_4px_0px_#000]  px-4 py-3">
         <div className="flex gap-1">
           <Dot />
           <Dot delay="150ms" />
@@ -680,7 +680,7 @@ function PaperPlaneIcon() {
 }
 
 function RobotIcon() {
-  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444]";
+  const shadowClass = "shadow-[4px_4px_0px_#000] ";
   return (
     <div className={`h-9 w-9 sm:h-10 sm:w-10 bg-white dark:bg-zinc-900 border-2 border-black dark:border-zinc-500 ${shadowClass} flex items-center justify-center`}>
       <svg width="18" height="18" viewBox="0 0 24 24" className="fill-black dark:fill-white">
@@ -699,7 +699,7 @@ function BrainSparkSVG() {
       width="64"
       height="64"
       viewBox="0 0 120 120"
-      className="border-2 border-black dark:border-zinc-500 shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#444] bg-white dark:bg-zinc-900"
+      className="border-2 border-black dark:border-zinc-500 shadow-[4px_4px_0px_#000]  bg-white dark:bg-zinc-900"
     >
       <rect x="8" y="8" width="104" height="104" className="fill-[#F4F4F4] dark:fill-zinc-900" stroke="currentColor" strokeWidth="2" />
       <rect x="28" y="28" width="28" height="28" fill="#0A74F0" stroke="currentColor" strokeWidth="2" />

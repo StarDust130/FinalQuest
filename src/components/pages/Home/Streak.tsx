@@ -29,7 +29,7 @@ const Streak: React.FC = () => {
   });
 
   return (
-    <section id="streak" className="w-full max-w-full ">
+    <section id="streak" className="w-full max-w-full py-5 ">
       {/* New top meta bar (outside card) */}
       <div
         className="
