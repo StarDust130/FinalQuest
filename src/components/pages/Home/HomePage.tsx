@@ -1,3 +1,4 @@
+import SavetoUserHomePage from "@/components/elements/SavetoUserHomePage";
 import HeroCard from "./HeroCard";
 import Streak from "./Streak";
 
@@ -12,6 +13,8 @@ export default function HomePage() {
 
           {/* STREAK / WEEKLY */}
           <Streak />
+
+          <SavetoUserHomePage />
         </main>
       </div>
     </>
