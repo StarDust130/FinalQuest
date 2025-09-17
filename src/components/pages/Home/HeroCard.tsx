@@ -15,6 +15,12 @@ const features: { emoji: string; title: string; note: string }[] = [
   { emoji: "🔥", title: "Streak Energy", note: "Momentum + focus" },
 ];
 
+const randomWordsList = ["Unstoppable", "Fearless", "Limitless", "Relentless", "Invincible", "Audacious", "Resilient", "Tenacious", "Unyielding", "Dynamic"];
+
+const randomText = randomWordsList[Math.floor(Math.random() * randomWordsList.length)];
+
+  
+
 const HeroCard = ({ onStart, className }: HeroCardProps) => {
   return (
     <div
@@ -165,12 +171,12 @@ const HeroCard = ({ onStart, className }: HeroCardProps) => {
       {/* stamp */}
       <div className="absolute left-8 bottom-8 w-20 h-20 rounded-full border-2 border-neutral-300 dark:border-white/25 flex items-center justify-center rotate-[-15deg] opacity-30">
         <span className="text-[0.55rem] font-extrabold uppercase tracking-wider">
-          approved
+          {randomText}
         </span>
       </div>
 
       {/* corner slice */}
-      <div className="absolute left-0 bottom-0 w-7 h-7 bg-white dark:bg-neutral-900 border-r-[4px] border-t-[4px] border-neutral-900 dark:border-black rounded-tr-xl" />
+      <div className="absolute left-0 bottom-0 w-7 h-7 bg-white dark:bg-neutral-900 border-r-[4px] border-t-[4px] border-neutral-900 dark:border-black/60 rounded-tr-xl" />
     </div>
   );
 };
