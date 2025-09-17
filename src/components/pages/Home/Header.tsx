@@ -265,6 +265,10 @@ const Header = () => {
                 className="sr-only"
                 onChange={handleAvatarChange}
               />
+              <DropdownMenuItem className=" md:hidden">
+          
+                <ModeToggle variant="text"  />
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onSelect={() => {
