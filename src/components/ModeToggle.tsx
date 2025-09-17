@@ -30,7 +30,7 @@ export function ModeToggle() {
       aria-label={`Theme: ${label}. Tap to switch`}
       title={`Theme: ${label} (tap to switch)`}
       disabled={!mounted}
-      className="h-auto flex items-center gap-1 rounded-full px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors dark:text-white text-xs font-medium text-black"
+      className="h-auto cursor-pointer flex items-center gap-1 rounded-full px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors dark:text-white text-xs font-medium text-black"
     >
       <span
         key={current}

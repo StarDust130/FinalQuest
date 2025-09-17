@@ -221,7 +221,7 @@ const Header = () => {
             <DropdownMenuTrigger asChild>
               <button
                 aria-label="Open profile menu"
-                className="rounded-full focus-visible:outline-none focus-visible:ring-2 ring-offset-2 ring-offset-background transition hover:shadow-lg ring-primary/50"
+                className="rounded-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 ring-offset-2 ring-offset-background transition hover:shadow-lg ring-primary/50"
               >
                 <Avatar className="h-11 w-11 sm:h-12 sm:w-12 ring-2 ring-border">
                   <AvatarImage
