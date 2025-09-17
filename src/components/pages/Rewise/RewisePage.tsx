@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useRef, useState, forwardRef, useLayoutEffect } from "react";
 
 /* Types */
-type Mode = "topic" | "chat";
+type Mode = "topic" | "chat" | "summary";
 
 type BaseMsg = { id: string; timestamp: number };
 type ChatMessage =
@@ -15,17 +15,28 @@ type ChatMessage =
       selectedIndex?: number;
     });
 
+type SummaryData = {
+  topic: string;
+  score: number;
+  feedback: string;
+  strengths: string[];
+  weaknesses: string[];
+  examReadiness: "Ready" | "Needs Review" | "More Practice";
+};
+
 /* Constants */
-const TOTAL_SECONDS = 15 * 60;
+const DEFAULT_SESSION_DURATION = 15 * 60; // 15 minutes
 
 /* Page */
 export default function RewisePage() {
   const [mode, setMode] = useState<Mode>("topic");
   const [topic, setTopic] = useState("");
-  const [timeLeft, setTimeLeft] = useState(TOTAL_SECONDS);
+  const [sessionDuration, setSessionDuration] = useState(DEFAULT_SESSION_DURATION);
+  const [timeLeft, setTimeLeft] = useState(DEFAULT_SESSION_DURATION);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [summaryData, setSummaryData] = useState<SummaryData | null>(null);
 
   const chatScrollRef = useRef<HTMLDivElement | null>(null);
   const timerRef = useRef<number | null>(null);
@@ -41,23 +52,19 @@ export default function RewisePage() {
   };
 
   // Start session
-  const beginSession = () => {
+  const beginSession = (duration: number) => {
     if (!topic.trim()) return;
+    setSessionDuration(duration);
+    setTimeLeft(duration);
     setMode("chat");
-    setTimeLeft(TOTAL_SECONDS);
 
     const t = Date.now();
     setMessages([
       {
         id: "ai-1",
         role: "ai",
-        text: `Great—let’s do a focused 15‑minute spar on “${topic.trim()}”. I’ll quiz you with quick checks and follow‑ups.`,
-        suggestions: [
-          "Give me a timeline",
-          "Key causes",
-          "Definitions",
-          "Compare with another topic",
-        ],
+        text: `Great—let’s do a focused ${duration / 60}‑minute spar on “${topic.trim()}”. I’ll quiz you with quick checks and follow‑ups.`,
+        suggestions: ["Give me a timeline", "Key causes", "Definitions"],
         timestamp: t,
       },
       {
@@ -68,35 +75,51 @@ export default function RewisePage() {
           `Key figures + timeline of ${topic.trim()}`,
           `Causes and consequences around ${topic.trim()}`,
           `Core definitions and concepts in ${topic.trim()}`,
-          `Compare ${topic.trim()} with a related topic`,
         ],
         timestamp: t + 1,
       },
     ]);
   };
 
-  // End session
+  // End session and generate summary
   const endSession = () => {
     if (timerRef.current) {
       window.clearInterval(timerRef.current);
       timerRef.current = null;
     }
+    // Mock summary generation
+    setSummaryData({
+      topic: topic,
+      score: 7,
+      feedback: "You have a solid grasp of the core concepts but struggle with connecting them to broader historical events. Focus on the 'why' behind the facts.",
+      strengths: ["Good recall of key figures.", "Understood the main timeline."],
+      weaknesses: ["Connecting causes and effects.", "Nuance in definitions."],
+      examReadiness: "Needs Review",
+    });
+    setMode("summary");
+  };
+
+  // Reset to start screen
+  const resetSession = () => {
     setMode("topic");
     setTopic("");
     setMessages([]);
     setInput("");
     setIsTyping(false);
-    setTimeLeft(TOTAL_SECONDS);
+    setSummaryData(null);
+    setSessionDuration(DEFAULT_SESSION_DURATION);
+    setTimeLeft(DEFAULT_SESSION_DURATION);
   };
 
   // Timer
   useEffect(() => {
-    if (mode !== "chat") return;
+    if (mode !== "chat" || sessionDuration === 0) return;
     if (timerRef.current) window.clearInterval(timerRef.current);
     timerRef.current = window.setInterval(() => {
       setTimeLeft((t) => {
         if (t <= 1) {
           if (timerRef.current) window.clearInterval(timerRef.current);
+          endSession(); // Automatically end session when time is up
           return 0;
         }
         return t - 1;
@@ -108,7 +131,7 @@ export default function RewisePage() {
         timerRef.current = null;
       }
     };
-  }, [mode]);
+  }, [mode, sessionDuration]);
 
   // Auto-scroll chat log on new content
   useEffect(() => {
@@ -116,28 +139,26 @@ export default function RewisePage() {
     scrollToBottom(true);
   }, [messages, isTyping, mode]);
 
-  // Better snap when switching into chat or when viewport changes (mobile keyboard)
+  // Better snap when switching into chat or when viewport changes
   useLayoutEffect(() => {
     if (mode !== "chat") return;
     scrollToBottom(false);
-
     const onResize = () => scrollToBottom(false);
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, [mode]);
 
   const mmss = useMemo(() => {
-    const m = Math.floor(timeLeft / 60)
-      .toString()
-      .padStart(2, "0");
+    if (sessionDuration === 0) return "∞";
+    const m = Math.floor(timeLeft / 60).toString().padStart(2, "0");
     const s = (timeLeft % 60).toString().padStart(2, "0");
     return `${m}:${s}`;
-  }, [timeLeft]);
+  }, [timeLeft, sessionDuration]);
 
-  const progressPct = useMemo(
-    () => Math.max(0, Math.min(100, Math.round(((TOTAL_SECONDS - timeLeft) / TOTAL_SECONDS) * 100))),
-    [timeLeft]
-  );
+  const progressPct = useMemo(() => {
+    if (sessionDuration === 0) return 0; // No progress for unlimited time
+    return Math.max(0, Math.min(100, Math.round(((sessionDuration - timeLeft) / sessionDuration) * 100)));
+  }, [timeLeft, sessionDuration]);
 
   const handleSend = (custom?: string) => {
     const text = (custom ?? input).trim();
@@ -150,7 +171,6 @@ export default function RewisePage() {
     ]);
     setInput("");
 
-    // Simulate AI reply
     setIsTyping(true);
     setTimeout(() => {
       const aiNow = Date.now();
@@ -174,7 +194,6 @@ export default function RewisePage() {
         m.role === "mcq" && m.id === id ? { ...m, selectedIndex: idx } : m
       )
     );
-    // Follow-up from AI
     setIsTyping(true);
     setTimeout(() => {
       const aiNow = Date.now();
@@ -196,15 +215,23 @@ export default function RewisePage() {
       <div className="max-w-4xl mx-auto h-full flex flex-col gap-3">
         <Header
           mode={mode}
-          timeLabel={mode === "topic" ? "15:00" : mmss}
-          progress={mode === "chat" ? progressPct : undefined}
+          timeLabel={mode === "topic" ? "Setup" : mmss}
+          progress={mode === "chat" && sessionDuration > 0 ? progressPct : undefined}
           onBack={() => window.history.back()}
           onEnd={endSession}
         />
 
-        {mode === "topic" ? (
-          <TopicEntry topic={topic} setTopic={setTopic} onStart={beginSession} />
-        ) : (
+        {mode === "topic" && (
+          <TopicEntry
+            topic={topic}
+            setTopic={setTopic}
+            duration={sessionDuration}
+            setDuration={setSessionDuration}
+            onStart={() => beginSession(sessionDuration)}
+          />
+        )}
+
+        {mode === "chat" && (
           <div className="flex-1 min-h-0 flex flex-col">
             <ChatLog
               ref={chatScrollRef}
@@ -213,7 +240,6 @@ export default function RewisePage() {
               onSelectOption={selectOption}
               onSuggestionClick={(s) => handleSend(s)}
             />
-
             <Composer
               value={input}
               onChange={setInput}
@@ -221,6 +247,10 @@ export default function RewisePage() {
               onFocusInput={() => scrollToBottom(false)}
             />
           </div>
+        )}
+
+        {mode === "summary" && summaryData && (
+          <SummaryScreen summary={summaryData} onRestart={resetSession} />
         )}
       </div>
     </div>
@@ -241,13 +271,16 @@ function Header({
   onBack: () => void;
   onEnd: () => void;
 }) {
+  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0]";
+  const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-[2px] dark:active:translate-y-[2px]";
+
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
         {mode === "topic" ? (
           <button
             onClick={onBack}
-            className="flex items-center gap-2 bg-white dark:bg-[#141922] border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] px-3 py-2 font-bold active:shadow-none active:translate-x-[4px] active:translate-y-[4px] transition-transform text-sm"
+            className={`flex items-center gap-2 bg-white dark:bg-[#141922] border-2 border-black dark:border-white/80 ${shadowClass} px-3 py-2 font-bold ${activeClass} transition-transform text-sm`}
           >
             <BackArrowIcon />
             Back
@@ -255,19 +288,19 @@ function Header({
         ) : (
           <button
             onClick={onEnd}
-            className="bg-[#EF4444] text-black dark:text-white border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] px-3 py-2 font-bold active:shadow-none active:translate-x-[4px] active:translate-y-[4px] transition-transform text-sm"
+            className={`bg-[#EF4444] text-black dark:text-white border-2 border-black dark:border-white/80 ${shadowClass} px-3 py-2 font-bold ${activeClass} transition-transform text-sm`}
           >
             End Session
           </button>
         )}
 
-        <div className="bg-white dark:bg-[#141922] border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] px-3 py-2 font-extrabold text-sm">
+        <div className={`bg-white dark:bg-[#141922] border-2 border-black dark:border-white/80 ${shadowClass} px-3 py-2 font-extrabold text-sm`}>
           {timeLabel}
         </div>
       </div>
 
       {mode === "chat" && typeof progress === "number" && (
-        <div className="w-full bg-white dark:bg-[#141922] border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] h-3 relative">
+        <div className={`w-full bg-white dark:bg-[#141922] border-2 border-black dark:border-white/80 ${shadowClass} h-3 relative`}>
           <div
             className="h-full bg-[#0A74F0]"
             style={{ width: `${progress}%`, transition: "width 300ms ease" }}
@@ -278,36 +311,40 @@ function Header({
   );
 }
 
-/* Topic Entry – mobile-first, cleaner, better dark mode */
+/* Topic Entry */
 function TopicEntry({
   topic,
   setTopic,
+  duration,
+  setDuration,
   onStart,
 }: {
   topic: string;
   setTopic: (v: string) => void;
+  duration: number;
+  setDuration: (d: number) => void;
   onStart: () => void;
 }) {
-  const suggestions = [
-    "Photosynthesis",
-    "The Gupta Empire",
-    "Trigonometry basics",
-    "WWII causes",
+  const timeOptions = [
+    { label: "10 min", value: 10 * 60 },
+    { label: "15 min", value: 15 * 60 },
+    { label: "20 min", value: 20 * 60 },
+    { label: "No Limit", value: 0 },
   ];
+  const suggestions = ["Photosynthesis", "The Gupta Empire", "Trigonometry", "WWII causes"];
+  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0]";
+  const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-[2px] dark:active:translate-y-[2px]";
+  const smallActiveClass = "active:shadow-none active:translate-x-[2px] active:translate-y-[2px] dark:active:translate-x-[1px] dark:active:translate-y-[1px]";
+  const smallShadowClass = "shadow-[2px_2px_0px_#000] dark:shadow-[1px_1px_0px_#A0A0A0]";
+
   return (
     <div className="flex-1 min-h-0 flex items-center justify-center">
-      <div className="w-full max-w-xl bg-[#F4F4F4] dark:bg-transparent border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] p-5 sm:p-6">
+      <div className={`w-full max-w-xl bg-white/50 dark:bg-transparent border-2 border-black dark:border-white/80 ${shadowClass} p-5 sm:p-6`}>
         <div className="flex items-center gap-3 sm:gap-4 mb-4">
-          <div className="shrink-0">
-            <BrainSparkSVG />
-          </div>
+          <div className="shrink-0"><BrainSparkSVG /></div>
           <div>
-            <h1 className="text-lg sm:text-2xl font-extrabold leading-tight">
-              Start a 15‑min Spar
-            </h1>
-            <p className="text-xs sm:text-sm opacity-80">
-              Enter a topic. We’ll quiz, nudge, and sharpen your recall.
-            </p>
+            <h1 className="text-lg sm:text-2xl font-extrabold leading-tight">Start a Spar Session</h1>
+            <p className="text-xs sm:text-sm opacity-80">Enter a topic. We’ll quiz, nudge, and sharpen your recall.</p>
           </div>
         </div>
 
@@ -317,33 +354,101 @@ function TopicEntry({
             onChange={(e) => setTopic(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && onStart()}
             placeholder="e.g., The Gupta Empire"
-            className="flex-1 bg-white dark:bg-[#141922] text-black dark:text-white placeholder-black/60 dark:placeholder-white/60 px-3 py-3 border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] focus:outline-none text-sm"
+            className={`flex-1 bg-white dark:bg-[#141922] text-black dark:text-white placeholder-black/60 dark:placeholder-white/60 px-3 py-3 border-2 border-black dark:border-white/80 ${shadowClass} focus:outline-none text-sm`}
           />
           <button
             onClick={onStart}
-            className="whitespace-nowrap bg-[#FFD700] border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] px-4 sm:px-5 py-3 font-extrabold active:shadow-none active:translate-x-[4px] active:translate-y-[4px] transition-transform text-sm"
+            className={`whitespace-nowrap bg-[#FFD700] border-2 border-black dark:border-white/80 ${shadowClass} px-4 sm:px-5 py-3 font-extrabold ${activeClass} transition-transform text-sm`}
           >
-            Start 15‑min
+            Start
           </button>
         </div>
 
-        <p className="mt-3 text-sm sm:text-sm font-bold">Suggestions:</p>
+        <div className="mt-4">
+          <p className="text-sm font-bold mb-2">Duration:</p>
+          <div className="grid grid-cols-4 gap-2">
+            {timeOptions.map(opt => (
+              <button
+                key={opt.label}
+                onClick={() => setDuration(opt.value)}
+                className={`text-xs sm:text-sm border-2 border-black dark:border-white/80 ${smallShadowClass} ${smallActiveClass} px-2 py-2 font-bold transition-transform ${duration === opt.value ? 'bg-[#0A74F0] text-white' : 'bg-white dark:bg-[#141922]'}`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
-        <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2 overflow-x-auto pb-1">
+        <p className="mt-4 text-sm font-bold">Suggestions:</p>
+        <div className="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-2">
           {suggestions.map((s, i) => (
             <button
               key={i}
               onClick={() => setTopic(s)}
-              className="text-xs sm:text-sm bg-white dark:bg-[#0E1117] border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] px-3 py-1.5 font-bold shrink-0 active:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-transform"
+              className={`text-xs sm:text-sm bg-white dark:bg-[#0E1117] border-2 border-black dark:border-white/80 ${smallShadowClass} px-3 py-1.5 font-bold shrink-0 ${smallActiveClass} transition-transform`}
             >
               {s}
             </button>
           ))}
         </div>
+      </div>
+    </div>
+  );
+}
 
-        <p className="mt-3 text-[11px] sm:text-xs opacity-70">
-          Tip: Press Enter to start. You’ll get quick MCQs and follow‑ups.
-        </p>
+/* Session Summary Screen */
+function SummaryScreen({ summary, onRestart }: { summary: SummaryData; onRestart: () => void }) {
+  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0]";
+  const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-[2px] dark:active:translate-y-[2px]";
+  const readinessColor = {
+    "Ready": "bg-green-500",
+    "Needs Review": "bg-yellow-500",
+    "More Practice": "bg-red-500",
+  }[summary.examReadiness];
+
+  return (
+    <div className="flex-1 min-h-0 flex items-center justify-center">
+      <div className={`w-full max-w-2xl bg-white/50 dark:bg-transparent border-2 border-black dark:border-white/80 ${shadowClass} p-5 sm:p-6`}>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-center">Session Report</h1>
+        <p className="text-center text-sm opacity-80 mb-4">Topic: {summary.topic}</p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+          <div className="flex flex-col items-center justify-center">
+            <p className="font-bold mb-2">Overall Score</p>
+            <div className={`relative h-32 w-32 flex items-center justify-center font-extrabold text-4xl border-4 border-black dark:border-white/80 rounded-full ${shadowClass}`}>
+              {summary.score}<span className="text-lg opacity-70">/10</span>
+            </div>
+            <div className={`mt-4 px-3 py-1 text-sm font-bold text-black ${readinessColor} border-2 border-black ${shadowClass}`}>
+              {summary.examReadiness}
+            </div>
+          </div>
+          <div className="space-y-3">
+            <div>
+              <h3 className="font-bold flex items-center gap-2"><CheckIcon /> Strengths</h3>
+              <ul className="list-disc list-inside text-sm pl-2 mt-1 space-y-1">
+                {summary.strengths.map((s, i) => <li key={i}>{s}</li>)}
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-bold flex items-center gap-2"><CrossIcon /> Weaknesses</h3>
+              <ul className="list-disc list-inside text-sm pl-2 mt-1 space-y-1">
+                {summary.weaknesses.map((w, i) => <li key={i}>{w}</li>)}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className={`mt-5 bg-white dark:bg-[#141922] border-2 border-black dark:border-white/80 ${shadowClass} p-4`}>
+          <h3 className="font-bold text-sm mb-1">AI Feedback</h3>
+          <p className="text-sm">{summary.feedback}</p>
+        </div>
+
+        <button
+          onClick={onRestart}
+          className={`w-full mt-5 bg-[#FFD700] border-2 border-black dark:border-white/80 ${shadowClass} px-5 py-3 font-extrabold ${activeClass} transition-transform text-sm`}
+        >
+          Start Another Session
+        </button>
       </div>
     </div>
   );
@@ -368,9 +473,7 @@ const ChatLog = forwardRef<HTMLDivElement, ChatLogProps>(function ChatLog(
     >
       {messages.map((m) => {
         if (m.role === "user") {
-          return (
-            <UserBubble key={m.id} text={m.text} timestamp={m.timestamp} />
-          );
+          return <UserBubble key={m.id} text={m.text} timestamp={m.timestamp} />;
         }
         if (m.role === "ai") {
           return (
@@ -394,13 +497,12 @@ const ChatLog = forwardRef<HTMLDivElement, ChatLogProps>(function ChatLog(
           />
         );
       })}
-
       {isTyping && <TypingIndicator />}
     </div>
   );
 });
 
-/* Composer (fixed at bottom of page container) */
+/* Composer */
 function Composer({
   value,
   onChange,
@@ -412,11 +514,14 @@ function Composer({
   onSend: () => void;
   onFocusInput: () => void;
 }) {
+  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0]";
+  const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-[2px] dark:active:translate-y-[2px]";
+
   return (
     <div className="pt-2">
       <div
-        className="flex items-center gap-2 sm:gap-3 bg-[#F4F4F4] dark:bg-[#0E1117] border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] p-2 sm:p-3"
-        style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}
+        className={`flex items-center gap-2 sm:gap-3 bg-[#F4F4F4] dark:bg-[#0E1117] border-2 border-black dark:border-white/80 ${shadowClass} p-2 sm:p-3`}
+        style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
       >
         <input
           value={value}
@@ -424,12 +529,12 @@ function Composer({
           onKeyDown={(e) => e.key === "Enter" && onSend()}
           onFocus={onFocusInput}
           placeholder="Type your message..."
-          className="flex-1 bg-white dark:bg-[#141922] text-black dark:text-white placeholder-black/60 dark:placeholder-white/60 px-3 sm:px-4 py-3 border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] focus:outline-none text-sm"
+          className={`flex-1 bg-white dark:bg-[#141922] text-black dark:text-white placeholder-black/60 dark:placeholder-white/60 px-3 sm:px-4 py-3 border-2 border-black dark:border-white/80 ${shadowClass} focus:outline-none text-sm`}
         />
         <button
           onClick={onSend}
           disabled={!value.trim()}
-          className="h-11 w-11 sm:h-12 sm:w-12 flex items-center justify-center bg-[#0A74F0] text-white disabled:opacity-60 border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] active:shadow-none active:translate-x-[4px] active:translate-y-[4px] transition-transform"
+          className={`h-11 w-11 sm:h-12 sm:w-12 flex items-center justify-center bg-[#0A74F0] text-white disabled:opacity-60 border-2 border-black dark:border-white/80 ${shadowClass} ${activeClass} transition-transform`}
           aria-label="Send"
           title="Send"
         >
@@ -452,23 +557,24 @@ function AIBubble({
   suggestions?: string[];
   onSuggestionClick: (s: string) => void;
 }) {
+  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0]";
+  const smallShadowClass = "shadow-[2px_2px_0px_#000] dark:shadow-[1px_1px_0px_#A0A0A0]";
+  const smallActiveClass = "active:shadow-none active:translate-x-[2px] active:translate-y-[2px] dark:active:translate-x-[1px] dark:active:translate-y-[1px]";
+
   return (
     <div className="flex items-start gap-2 sm:gap-3">
-      <div className="shrink-0">
-        <RobotIcon />
-      </div>
+      <div className="shrink-0"><RobotIcon /></div>
       <div className="max-w-[85%] sm:max-w-[70%]">
-        <div className="bg-[#ECECEC] dark:bg-[#171C24] border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] p-3 sm:p-4">
+        <div className={`bg-[#ECECEC] dark:bg-[#171C24] border-2 border-black dark:border-white/80 ${shadowClass} p-3 sm:p-4`}>
           <p className="font-bold text-xs sm:text-sm">AI</p>
           <p className="mt-1 text-sm">{text}</p>
-
           {!!suggestions?.length && (
             <div className="mt-3 flex flex-wrap gap-2">
               {suggestions.map((s, i) => (
                 <button
                   key={`${i}-${s}`}
                   onClick={() => onSuggestionClick(s)}
-                  className="text-xs sm:text-sm bg-white dark:bg-[#0E1117] border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] px-3 py-1.5 font-bold active:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-transform"
+                  className={`text-xs sm:text-sm bg-white dark:bg-[#0E1117] border-2 border-black dark:border-white/80 ${smallShadowClass} px-3 py-1.5 font-bold ${smallActiveClass} transition-transform`}
                 >
                   {s}
                 </button>
@@ -483,10 +589,11 @@ function AIBubble({
 }
 
 function UserBubble({ text, timestamp }: { text: string; timestamp: number }) {
+  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0]";
   return (
     <div className="flex justify-end">
       <div className="max-w-[85%] sm:max-w-[70%]">
-        <div className="bg-[#0A74F0] text-white border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] p-3 sm:p-4">
+        <div className={`bg-[#0A74F0] text-white border-2 border-black dark:border-white/80 ${shadowClass} p-3 sm:p-4`}>
           <p className="font-bold text-xs sm:text-sm">You</p>
           <p className="mt-1 text-sm">{text}</p>
         </div>
@@ -510,12 +617,13 @@ function MCQBlock({
   selectedIndex?: number;
   onSelect: (idx: number) => void;
 }) {
+  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0]";
+  const activeClass = "active:shadow-none active:translate-x-[4px] active:translate-y-[4px] dark:active:translate-x-[2px] dark:active:translate-y-[2px]";
+
   return (
     <div className="flex items-start gap-2 sm:gap-3">
-      <div className="shrink-0">
-        <RobotIcon />
-      </div>
-      <div className="w-full max-w-[700px] bg-[#ECECEC] dark:bg-[#171C24] border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] p-3 sm:p-4">
+      <div className="shrink-0"><RobotIcon /></div>
+      <div className={`w-full max-w-[700px] bg-[#ECECEC] dark:bg-[#171C24] border-2 border-black dark:border-white/80 ${shadowClass} p-3 sm:p-4`}>
         <p className="font-bold text-xs sm:text-sm mb-2">Checkpoint</p>
         <p className="mb-3 text-sm">{question}</p>
         <div className="space-y-2">
@@ -525,9 +633,8 @@ function MCQBlock({
               <button
                 key={`${id}-${idx}`}
                 onClick={() => onSelect(idx)}
-                className={`w-full text-left px-3 sm:px-4 py-2.5 border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] font-bold text-sm transition-transform active:shadow-none active:translate-x-[4px] active:translate-y-[4px] ${
-                  selected ? "bg-[#FFD700]" : "bg-white dark:bg-[#0E1117] text-black dark:text-white"
-                }`}
+                disabled={selectedIndex !== undefined}
+                className={`w-full text-left px-3 sm:px-4 py-2.5 border-2 border-black dark:border-white/80 ${shadowClass} font-bold text-sm transition-transform disabled:cursor-not-allowed ${!selected && selectedIndex !== undefined ? 'opacity-60' : ''} ${activeClass} ${selected ? "bg-[#FFD700]" : "bg-white dark:bg-[#0E1117] text-black dark:text-white"}`}
               >
                 {opt}
               </button>
@@ -543,10 +650,8 @@ function MCQBlock({
 function TypingIndicator() {
   return (
     <div className="flex items-start gap-2 sm:gap-3">
-      <div className="shrink-0">
-        <RobotIcon />
-      </div>
-      <div className="bg-[#ECECEC] dark:bg-[#171C24] border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] px-4 py-3">
+      <div className="shrink-0"><RobotIcon /></div>
+      <div className="bg-[#ECECEC] dark:bg-[#171C24] border-2 border-black dark:border-white/80 shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0] px-4 py-3">
         <div className="flex gap-1">
           <Dot />
           <Dot delay="150ms" />
@@ -560,7 +665,7 @@ function TypingIndicator() {
 /* Icons & Illustration */
 function BackArrowIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" className="fill-none stroke-black dark:stroke-white">
+    <svg width="18" height="18" viewBox="0 0 24 24" className="fill-none stroke-current">
       <path d="M15 18l-6-6 6-6" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter" />
     </svg>
   );
@@ -568,15 +673,16 @@ function BackArrowIcon() {
 
 function PaperPlaneIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" className="fill-black dark:fill-white">
+    <svg width="18" height="18" viewBox="0 0 24 24" className="fill-current">
       <path d="M2 21l20-9L2 3l4 7 8 2-8 2-4 7z" />
     </svg>
   );
 }
 
 function RobotIcon() {
+  const shadowClass = "shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0]";
   return (
-    <div className="h-9 w-9 sm:h-10 sm:w-10 bg-white dark:bg-[#141922] border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] flex items-center justify-center">
+    <div className={`h-9 w-9 sm:h-10 sm:w-10 bg-white dark:bg-[#141922] border-2 border-black dark:border-white/80 ${shadowClass} flex items-center justify-center`}>
       <svg width="18" height="18" viewBox="0 0 24 24" className="fill-black dark:fill-white">
         <rect x="4" y="6" width="16" height="12" rx="2" />
         <circle cx="9" cy="12" r="1.5" className="fill-[#F4F4F4] dark:fill-[#0E1117]" />
@@ -593,7 +699,7 @@ function BrainSparkSVG() {
       width="64"
       height="64"
       viewBox="0 0 120 120"
-      className="border-2 border-black shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.55)] bg-white dark:bg-[#0E1117]"
+      className="border-2 border-black dark:border-white/80 shadow-[4px_4px_0px_#000] dark:shadow-[2px_2px_0px_#A0A0A0] bg-white dark:bg-[#0E1117]"
     >
       <rect x="8" y="8" width="104" height="104" className="fill-[#F4F4F4] dark:fill-[#0E1117]" stroke="currentColor" strokeWidth="2" />
       <rect x="28" y="28" width="28" height="28" fill="#0A74F0" stroke="currentColor" strokeWidth="2" />
@@ -604,24 +710,34 @@ function BrainSparkSVG() {
   );
 }
 
+function CheckIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+  );
+}
+
+function CrossIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  );
+}
+
 /* Small utils */
 function fmtTime(ts: number) {
-  const d = new Date(ts);
-  const hh = d.getHours().toString().padStart(2, "0");
-  const mm = d.getMinutes().toString().padStart(2, "0");
-  return `${hh}:${mm}`;
+  return new Date(ts).toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
 }
 
 function Dot({ delay = "0ms" }: { delay?: string }) {
   return (
     <span
-      className="inline-block h-2 w-2 bg-black dark:bg-white"
+      className="inline-block h-1.5 w-1.5 bg-black dark:bg-white rounded-full"
       style={{
-        marginRight: 6,
-        animation: "fq-bounce 1s infinite",
+        animation: "fq-bounce 1.2s infinite ease-in-out",
         animationDelay: delay,
-        border: "2px solid currentColor",
-        boxShadow: "4px 4px 0px currentColor",
       }}
     />
   );
@@ -635,8 +751,8 @@ if (typeof document !== "undefined") {
     style.id = id;
     style.innerHTML = `
       @keyframes fq-bounce {
-        0%, 80%, 100% { transform: translateY(0); }
-        40% { transform: translateY(-4px); }
+        0%, 80%, 100% { transform: scale(0); }
+        40% { transform: scale(1.0); }
       }
     `;
     document.head.appendChild(style);
