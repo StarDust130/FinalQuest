@@ -63,34 +63,51 @@ const NavBar: React.FC = () => {
                 role="navigation"
                 aria-label="Primary"
             >
-                <div className="flex flex-col gap-1.5">
+                <div className="flex flex-col gap-1.5 cursor-pointer">
                     {navItems.map(item => {
                         const active = pathname === item.href;
                         return (
-                            <button
-                                key={item.key}
-                                onClick={() => handleNav(item.href)}
-                                aria-label={item.label}
-                                aria-current={active ? "page" : undefined}
-                                className={`group relative flex flex-col items-center gap-1 rounded-xl px-1.5 py-2 text-[10px] font-medium tracking-wide transition-all
+                          <button
+                            key={item.key}
+                            onClick={() => handleNav(item.href)}
+                            aria-label={item.label}
+                            aria-current={active ? "page" : undefined}
+                            className={`group cursor-pointer relative flex flex-col items-center gap-1 rounded-xl px-1.5 py-2 text-[10px] font-medium tracking-wide transition-all
                                     focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-neutral-400/40 dark:focus-visible:ring-offset-neutral-950
-                                    ${active
+                                    ${
+                                      active
                                         ? "bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 shadow-sm ring-1 ring-neutral-300 dark:ring-neutral-600"
                                         : "text-neutral-500 dark:text-neutral-400 hover:bg-neutral-100/70 dark:hover:bg-neutral-800/60 hover:text-neutral-900 dark:hover:text-neutral-50"
                                     }`}
+                          >
+                            <span
+                              className={`relative grid h-7 w-7 place-items-center transition-transform ${
+                                active
+                                  ? "text-inherit"
+                                  : "text-neutral-600 dark:text-neutral-300 group-hover:text-neutral-900 dark:group-hover:text-neutral-100"
+                              }`}
                             >
-                                <span className={`relative grid h-7 w-7 place-items-center transition-transform ${active ? "text-inherit" : "text-neutral-600 dark:text-neutral-300 group-hover:text-neutral-900 dark:group-hover:text-neutral-100"}`}>
-                                    <motion.span
-                                        whileTap={{ scale: 0.85 }}
-                                        animate={active ? { scale: 1.05, y: -1 } : { scale: 1, y: 0 }}
-                                        transition={{ type: "spring", stiffness: 480, damping: 26 }}
-                                        className="flex"
-                                    >
-                                        {item.icon}
-                                    </motion.span>
-                                </span>
-                                <span className="relative leading-none">{item.label}</span>
-                            </button>
+                              <motion.span
+                                whileTap={{ scale: 0.85 }}
+                                animate={
+                                  active
+                                    ? { scale: 1.05, y: -1 }
+                                    : { scale: 1, y: 0 }
+                                }
+                                transition={{
+                                  type: "spring",
+                                  stiffness: 480,
+                                  damping: 26,
+                                }}
+                                className="flex"
+                              >
+                                {item.icon}
+                              </motion.span>
+                            </span>
+                            <span className="relative leading-none">
+                              {item.label}
+                            </span>
+                          </button>
                         );
                     })}
                 </div>
