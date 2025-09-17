@@ -1,5 +1,6 @@
+import PYQPage from "@/components/pages/Papers/PYQPage";
 
 const page = () => {
-  return <div>question papers</div>;
+  return <PYQPage />
 }
 export default page
