@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Newsreader, Fira_Code } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import Footer from "@/components/elements/Footer";
-import Header from "@/components/pages/Home/Header";
-import NavBar from "@/components/elements/NavBar";
 
 const geistSans = Inter({
   variable: "--font-geist-sans",
@@ -47,10 +44,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
+        
           {children}
-          <NavBar />
-          <Footer />
+       
         </ThemeProvider>
       </body>
     </html>
