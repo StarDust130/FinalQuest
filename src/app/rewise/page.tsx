@@ -1,7 +1,8 @@
+import RewisePage from "@/components/pages/Rewise/RewisePage"
 
 const page = () => {
   return (
-    <div>page</div>
+    <div><RewisePage /></div>
   )
 }
 export default page
